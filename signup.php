@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+   Group:   SCAD (Sami, Camille, Angelo, and Dan)
+   Purpose: landing page for TutorHub Sign up
+   Created: 2018-02-06 by Dan
+   Modified:2018-02-13 Dan: developed sample page with bootstrap
+			2018-02-20 Camille: made a copy and minor changes 
+-->
+<?php 
+
+$pagetitle = "Welcome";
+require 'inc/header.php'; 
+
+?>
+
+   <section id="main">
+      <div class="jumbotron">
+        <h1 class="display-3">Welcome</h1>
+        <p class="lead">TutorHub is simple tutor finding service. Want some help in a class you're taking now? See if anyone is available:</p>
+          <a class="btn btn-primary btn-lg" href="#" role="button">Find a Tutor</a>
+      </div>
+
+	</section>
+
+<?php require 'inc/footer.php'; ?>
+
