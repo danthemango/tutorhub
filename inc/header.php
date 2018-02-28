@@ -9,15 +9,16 @@
    }
 ?>
 
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
    <head>
-      <meta charset="UTF-8">
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title><?= $sitetitle ?></title>
+      <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="/~guenthdd/tutorhub/res/bootstrap.min.css">
+      <!-- Optional CSS -->
       <link rel="stylesheet" href="/~guenthdd/tutorhub/css/main.css">
-      <script src="/~guenthdd/tutorhub/res/jquery-3.3.1.min.js" ></script>
-      <script src="/~guenthdd/tutorhub/res/popper.min.js" ></script>
-      <script src="/~guenthdd/tutorhub/res/bootstrap.min.js" ></script>
    </head>
    <body>
       <header>
