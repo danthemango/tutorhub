@@ -1,4 +1,15 @@
-footer{
+html, body {
+   height: 100%;
+}
+
+body { 
+    background-image: url("../img/background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}      
+
+footer {
    color: white;
    background-color: #2C3E50;
    height: 70px;
