@@ -38,7 +38,7 @@
              </ul>
              <ul class="nav navbar-nav navbar-right">
                <li><a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Become a Tutor</a></li>
-               <li><a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span> Tutor Sign In</a></li>
+               <li><a class="nav-link" href="login.php"><span class="glyphicon glyphicon-log-in"></span> Tutor Sign In</a></li>
              </ul>
            </div>
          </nav>
