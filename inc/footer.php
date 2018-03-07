@@ -5,8 +5,8 @@
       <!-- Optional JavaScript -->
 
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="/~guenthdd/tutorhub/res/jquery-3.3.1.min.js" ></script>
-      <script src="/~guenthdd/tutorhub/res/popper.min.js" ></script>
-      <script src="/~guenthdd/tutorhub/res/bootstrap.min.js" ></script>
+      <script src="<?= $siteurl ?>/res/jquery-3.3.1.min.js" ></script>
+      <script src="<?= $siteurl ?>/res/popper.min.js" ></script>
+      <script src="<?= $siteurl ?>/res/bootstrap.min.js" ></script>
    </body>
 </html>

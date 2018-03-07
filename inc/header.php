@@ -7,6 +7,14 @@
    if(isset($pagetitle)){
       $sitetitle = $sitetitle . " | $pagetitle";
    }
+
+   // used to disambiguate between sites (e.g. for docker container images)
+   if(file_exists("inc/.siteurl")){
+      $sfh = fopen("inc/.siteurl","r");
+      $siteurl = fread($sfh, filesize("inc/.siteurl")-1);
+   }else{
+      $siteurl = "/~guenthdd/tutorhub";
+   }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -16,9 +24,9 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title><?= $sitetitle ?></title>
       <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="/~guenthdd/tutorhub/res/bootstrap.min.css">
+      <link rel="stylesheet" href="<?= $siteurl ?>/res/bootstrap.min.css">
       <!-- Optional CSS -->
-      <link rel="stylesheet" href="/~guenthdd/tutorhub/css/main.css">
+      <link rel="stylesheet" href="<?= $siteurl ?>/css/main.css">
    </head>
    <body>
       <header>
