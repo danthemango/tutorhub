@@ -18,6 +18,8 @@
       <link rel="stylesheet" href="res/bootstrap.min.css">
       <!-- Optional CSS -->
       <link rel="stylesheet" href="css/main.css">
+      <!-- jQuery -->
+      <script src="res/jquery-3.3.1.min.js" ></script>
    </head>
    <body>
       <header>
