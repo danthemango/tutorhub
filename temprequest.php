@@ -3,7 +3,7 @@
    Group:    SCAD (Sami, Camille, Angelo, and Dan)
    Purpose:  Login page for TutorHub
    Created:  2018-03-07 by Angelo
-   Modified: 2018-03-07 by Angelo
+   Modified: 2018-03-13 by Angelo
 -->
 <?php 
 
@@ -12,27 +12,16 @@ require 'inc/header.php';
 
 ?>
 
-<div class="row h-100 justify-content-center align-items-center">
-   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#request-modal">
-      Request Tutoring
-   </button>
-</div>
-
-<!-- Request Tutoring Confirmation Modal -->
-<div id="request-confirm" class="modal" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-         </div>
-         <div class="modal-body" id="request-result">
-         </div>
-      </div>
+<div class="container-fluid h-100">
+   <div class="row h-100 justify-content-center align-items-center">
+      <button type="button" class="btn btn-primary" onclick="generateRequest('1234', 'Angelo Ng', 'img/avatar.png', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+         Request Tutoring
+      </button>
    </div>
 </div>
 
 <!-- Request Tutoring Modal -->
-<div class="modal fade" id="request-modal">
+<div id="request-modal" class="modal fade">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
          <div class="modal-header text-center">
@@ -41,19 +30,15 @@ require 'inc/header.php';
          </div>
 
          <div class="modal-body">
-            <form id="request-form" action="request.php" method="POST">
+            <form id="request-form">
+               <input id="tutor-id" type="hidden" name="id">
                <div class="row form-group pr-3">
                   <div class="col-3 col-form-label text-center" for="courses">
-                     <row><img class="img-fluid" src="img/avatar.png"></row>
-                     <row class="font-weight-bold">Angelo Ng</row>
+                     <row><img id="tutor-img" class="img-fluid"></row>
+                     <row id="tutor-name" class="font-weight-bold"></row>
                   </div>                     
-                  <select multiple class="col-9 form-control" id="courses" name="courses" required>
-                     <option>CSCI 100</option>
-                     <option>CSCI 260</option>
-                     <option>CSCI 310</option>
-                     <option>CSCI 320</option>
-                     <option>CSCI 485</option>
-                     <option>MATH 123</option>
+                  <select id="tutor-courses"  multiple class="col-9 form-control"name="courses" required>
+
                   </select>
                </div>
                <div class="row form-group pr-3">
@@ -80,23 +65,20 @@ require 'inc/header.php';
    </div>
 </div>
 
-<script>
-   $(function(){
-      $('#request-form').on('submit', function(e) {
-         e.preventDefault();
-         var formData = $("#request-form").serialize();
-         $.ajax({
-            url: "request.php",
-            type: "POST",
-            data: formData,
-            success: function(data) {
-               $('#request-modal').modal('hide');
-               $('#request-result').text(formData);
-               $('#request-confirm').modal('show');
-            }
-         });
-      });
-   });
-</script>
+<!-- Request Tutoring Confirmation Modal -->
+<div id="request-result-modal" class="modal fade">
+   <div class="modal-dialog modal-dialog-centered">
+      <div id="request-result-content" class="modal-content">
+         <div class="modal-header">
+            <div id="request-result-header"></div>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body" id="request-result-body">
+         </div>
+      </div>
+   </div>
+</div>
+
+<script src="js/request_tutoring.js"></script>
 
 <?php require 'inc/footer.php'; ?>
