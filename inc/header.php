@@ -1,6 +1,5 @@
 <!-- start header.php -->
 <!DOCTYPE html>
-
 <?php
    // grab the page name if available
    $sitetitle = "TutorHub";
@@ -16,10 +15,14 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title><?= $sitetitle ?></title>
       <link rel="stylesheet" href="res/bootstrap.min.css">
-      <!-- Optional CSS -->
       <link rel="stylesheet" href="css/main.css">
-      <!-- jQuery -->
+      <link rel="stylesheet" href="res/jquery-ui.min.css">
+      <link rel="stylesheet" href="res/jquery-schedule/dist/jquery.schedule.css">
       <script src="res/jquery-3.3.1.min.js" ></script>
+      <script src="res/popper.min.js" ></script>
+      <script src="res/bootstrap.min.js" ></script>
+      <script src="res/jquery-ui.min.js"></script>
+      <script src="res/jquery-schedule/dist/jquery.schedule.js"></script>
    </head>
    <body>
       <header>
@@ -40,7 +43,7 @@
              </ul>
              <ul class="nav navbar-nav navbar-right">
                <li><a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Become a Tutor</a></li>
-               <li><a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span> Tutor Sign In</a></li>
+               <li><a class="nav-link" href="login.php"><span class="glyphicon glyphicon-log-in"></span> Tutor Sign In</a></li>
              </ul>
            </div>
          </nav>

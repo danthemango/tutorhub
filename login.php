@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <!--
    Group:    SCAD (Sami, Camille, Angelo, and Dan)
    Purpose:  Login page for TutorHub
    Created:  2018-03-06 by Angelo
    Modified: 2018-03-07 by Angelo
 -->
-<?php 
+<?php
 
 $pagetitle = "Tutor Login";
 require 'inc/header.php';

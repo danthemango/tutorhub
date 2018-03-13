@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <!--
    Group:    SCAD (Sami, Camille, Angelo, and Dan)
    Purpose:  example landing page for TutorHub
