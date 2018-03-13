@@ -1,6 +1,5 @@
 <!-- start header.php -->
 <!DOCTYPE html>
-
 <?php
    // grab the page name if available
    $sitetitle = "TutorHub";
@@ -16,8 +15,14 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title><?= $sitetitle ?></title>
       <link rel="stylesheet" href="res/bootstrap.min.css">
-      <!-- Optional CSS -->
       <link rel="stylesheet" href="css/main.css">
+      <link rel="stylesheet" href="res/jquery-ui.min.css">
+      <link rel="stylesheet" href="res/jquery-schedule/dist/jquery.schedule.css">
+      <script src="res/jquery-3.3.1.min.js" ></script>
+      <script src="res/popper.min.js" ></script>
+      <script src="res/bootstrap.min.js" ></script>
+      <script src="res/jquery-ui.min.js"></script>
+      <script src="res/jquery-schedule/dist/jquery.schedule.js"></script>
    </head>
    <body>
       <header>
