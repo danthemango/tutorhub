@@ -1,5 +1,9 @@
 DBINFO=dbinfo.inc
 
+# initializes and pulls git files from any submodules
+initSubmodules:
+	git submodule update --init --recursive
+
 # start docker container
 # note: run 'make build' before using this the first time
 up: res/docker-compose.yml
