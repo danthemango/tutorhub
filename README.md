@@ -14,3 +14,6 @@ The student - tutor matchup website
 - img: images
 - css: styling
 - js:  frontend code
+
+## using docker-compose
+Assuming you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed then run `docker-compose -f res/docker-compose.yml up` to spin up an Apache and a MySQL container for local development, which should provide access to the website via localhost:8000

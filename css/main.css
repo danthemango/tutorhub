@@ -17,3 +17,19 @@ footer {
    width: auto;
    padding-top: 1.5rem;
 }
+
+.form-whitebox {
+  padding: 5%;
+  border: 1px solid rgb(200,200,200);
+  background: white;
+}
+/* adding padding to first 'section' to ensure it doesn't get covered by floating nav */
+section:first-of-type{
+   margin-top: 85px;
+}
+section:last-of-type{
+   margin-bottom: 120px;
+}
+section{
+   background-color: white;
+}
