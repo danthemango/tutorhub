@@ -9,127 +9,125 @@ require 'inc/header.php';
    Modified: 2018-03-14 Angelo - Incorporated tutoring request code
    TODO: pull information from the database
 -->
-<section class="main h-100">
-   <div class="container-fluid h-100">
-      <div class="row">
-         <div class="col-12">
-            <h1 class="mt-3"> Search Results </h1>
-            <p class="lead">Showing 4 results of 200</p>
-            <p><a href="./">&lt; Back to Search </a></p>
+<section class="container-fluid main h-100">
+   <div class="row">
+      <div class="col-12">
+         <h1 class="mt-3"> Search Results </h1>
+         <p class="lead">Showing 4 results of 200</p>
+         <p><a href="./">&lt; Back to Search </a></p>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-sm-6 col-lg-3">
+         <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="img/profile/card_neptune.jpg" alt="statue of the god, neptune">
+            <div class="card-body">
+               <h5 class="card-title">Neptunny</h5>
+               <p class="card-text">Neptunny will do anything you need, as long as you need it done under water.</p>
+               <row>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#neptunnyModal">
+                     Check Schedule
+                  </button>
+               </row>
+               <row>
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('1111', 'Neptunny', 'img/profile/card_neptune.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                     Request Tutoring
+                  </button>
+               </row>
+            </div>
          </div>
       </div>
-      <div class="row">
-         <div class="col-sm-6 col-lg-3">
-            <div class="card" style="width: 18rem;">
-               <img class="card-img-top" src="img/profile/card_neptune.jpg" alt="statue of the god, neptune">
-               <div class="card-body">
-                  <h5 class="card-title">Neptunny</h5>
-                  <p class="card-text">Neptunny will do anything you need, as long as you need it done under water.</p>
-                  <row>
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#neptunnyModal">
-                        Check Schedule
-                     </button>
-                  </row>
-                  <row>
-                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('1111', 'Neptunny', 'img/profile/card_neptune.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
-                        Request Tutoring
-                     </button>
-                  </row>
-               </div>
+      <div class="col-sm-6 col-lg-3">
+         <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="img/profile/card_thai_statue.jpg" alt="a smiling face statue in thailand">
+            <div class="card-body">
+               <h5 class="card-title">Your Buddhy</h5>
+               <p class="card-text">If you need a smile then Buddhy's your guy.</p>
+               <row>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buddhyModal">
+                     Check Schedule
+                  </button>
+               </row>
+               <row>
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('2222', 'Your Buddhy', 'img/profile/card_thai_statue.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                     Request Tutoring
+                  </button>
+               </row>
             </div>
          </div>
-         <div class="col-sm-6 col-lg-3">
-            <div class="card" style="width: 18rem;">
-               <img class="card-img-top" src="img/profile/card_thai_statue.jpg" alt="a smiling face statue in thailand">
-               <div class="card-body">
-                  <h5 class="card-title">Your Buddhy</h5>
-                  <p class="card-text">If you need a smile then Buddhy's your guy.</p>
-                  <row>
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buddhyModal">
-                        Check Schedule
-                     </button>
-                  </row>
-                  <row>
-                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('2222', 'Your Buddhy', 'img/profile/card_thai_statue.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
-                        Request Tutoring
-                     </button>
-                  </row>
-               </div>
-            </div>
-         </div>
-         <div class="col-sm-6 col-lg-3">
-            <div class="card" style="width: 18rem;">
-               <img class="card-img-top" src="img/profile/card_palm_tree.jpg" alt="palm trees in the wind">
-               <div class="card-body">
-                  <h5 class="card-title">Some Palm Trees</h5>
-                  <p class="card-text">These trees will palm the shoes off your feet.</p>
-                  <row>
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#palmyModal">
-                        Check Schedule
-                     </button>
-                  </row>
-                  <row>
-                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('3333', 'Some Palm Trees', 'img/profile/card_palm_tree.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
-                        Request Tutoring
-                     </button>
-                  </row>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+         <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="img/profile/card_palm_tree.jpg" alt="palm trees in the wind">
+            <div class="card-body">
+               <h5 class="card-title">Some Palm Trees</h5>
+               <p class="card-text">These trees will palm the shoes off your feet.</p>
+               <row>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#palmyModal">
+                     Check Schedule
+                  </button>
+               </row>
+               <row>
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('3333', 'Some Palm Trees', 'img/profile/card_palm_tree.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                     Request Tutoring
+                  </button>
+               </row>
 
-               </div>
             </div>
          </div>
-         <div class="col-sm-6 col-lg-3">
-            <div class="card" style="width: 18rem;">
-               <img class="card-img-top" src="img/profile/card_snowydan.jpg" alt="a man in snowy weather">
-               <div class="card-body">
-                  <h5 class="card-title">Snowydan</h5>
-                  <p class="card-text">Exactly like Sunnidan except 20% more efficient.</p>
-                  <row>
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#snowydanModal">
-                        Check Schedule
-                     </button>
-                  </row>
-                  <row>
-                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('4444', 'Snowydan', 'img/profile/card_snowydan.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
-                        Request Tutoring
-                     </button>
-                  </row>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+         <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="img/profile/card_snowydan.jpg" alt="a man in snowy weather">
+            <div class="card-body">
+               <h5 class="card-title">Snowydan</h5>
+               <p class="card-text">Exactly like Sunnidan except 20% more efficient.</p>
+               <row>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#snowydanModal">
+                     Check Schedule
+                  </button>
+               </row>
+               <row>
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('4444', 'Snowydan', 'img/profile/card_snowydan.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                     Request Tutoring
+                  </button>
+               </row>
 
-               </div>
             </div>
          </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-           <ul class="pagination">
-             <li class="page-item disabled">
-               <a class="page-link" href="#">&laquo;</a>
-             </li>
-             <li class="page-item active">
-               <a class="page-link" href="#">1</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">2</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">3</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">4</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">5</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">&raquo;</a>
-             </li>
-           </ul>
-        </div>
-      </div>
+   </div>
+   <div class="row">
+     <div class="col-12">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo;</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">&raquo;</a>
+          </li>
+        </ul>
+     </div>
    </div>
 </section>
 
 <!-- neptunny's modal -->
-<div class="modal fade h-50" id="neptunnyModal" tabindex="-1" role="dialog" aria-labelledby="neptunnyModalLabel" aria-hidden="true">
+<div class="modal fade" id="neptunnyModal" tabindex="-1" role="dialog" aria-labelledby="neptunnyModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
          <div class="modal-header">
