@@ -6,15 +6,14 @@ require 'inc/header.php';
    Group:    SCAD (Sami, Camille, Angelo, and Dan)
    Purpose:  To serve the search results from the Tutorhub databas
    Created:  2018-03-09 By Dan
-   Modified: 2018-03-09 Dan: created sample search results
+   Modified: 2018-03-14 Angelo - Incorporated tutoring request code
    TODO: pull information from the database
 -->
-
-<section id="main" class="mx-3">
-   <div class="container">
+<section class="main h-100">
+   <div class="container-fluid h-100">
       <div class="row">
          <div class="col-12">
-            <h1> Search Results </h1>
+            <h1 class="mt-3"> Search Results </h1>
             <p class="lead">Showing 4 results of 200</p>
             <p><a href="./">&lt; Back to Search </a></p>
          </div>
@@ -26,9 +25,16 @@ require 'inc/header.php';
                <div class="card-body">
                   <h5 class="card-title">Neptunny</h5>
                   <p class="card-text">Neptunny will do anything you need, as long as you need it done under water.</p>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#neptunnyModal">
-                     Check Schedule
-                  </button>
+                  <row>
+                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#neptunnyModal">
+                        Check Schedule
+                     </button>
+                  </row>
+                  <row>
+                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('1111', 'Neptunny', 'img/profile/card_neptune.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                        Request Tutoring
+                     </button>
+                  </row>
                </div>
             </div>
          </div>
@@ -38,9 +44,16 @@ require 'inc/header.php';
                <div class="card-body">
                   <h5 class="card-title">Your Buddhy</h5>
                   <p class="card-text">If you need a smile then Buddhy's your guy.</p>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buddhyModal">
-                     Check Schedule
-                  </button>
+                  <row>
+                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buddhyModal">
+                        Check Schedule
+                     </button>
+                  </row>
+                  <row>
+                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('2222', 'Your Buddhy', 'img/profile/card_thai_statue.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                        Request Tutoring
+                     </button>
+                  </row>
                </div>
             </div>
          </div>
@@ -50,9 +63,17 @@ require 'inc/header.php';
                <div class="card-body">
                   <h5 class="card-title">Some Palm Trees</h5>
                   <p class="card-text">These trees will palm the shoes off your feet.</p>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#palmyModal">
-                     Check Schedule
-                  </button>
+                  <row>
+                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#palmyModal">
+                        Check Schedule
+                     </button>
+                  </row>
+                  <row>
+                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('3333', 'Some Palm Trees', 'img/profile/card_palm_tree.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                        Request Tutoring
+                     </button>
+                  </row>
+
                </div>
             </div>
          </div>
@@ -62,9 +83,17 @@ require 'inc/header.php';
                <div class="card-body">
                   <h5 class="card-title">Snowydan</h5>
                   <p class="card-text">Exactly like Sunnidan except 20% more efficient.</p>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#snowydanModal">
-                     Check Schedule
-                  </button>
+                  <row>
+                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#snowydanModal">
+                        Check Schedule
+                     </button>
+                  </row>
+                  <row>
+                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('4444', 'Snowydan', 'img/profile/card_snowydan.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                        Request Tutoring
+                     </button>
+                  </row>
+
                </div>
             </div>
          </div>
@@ -100,7 +129,7 @@ require 'inc/header.php';
 </section>
 
 <!-- neptunny's modal -->
-<div class="modal fade" id="neptunnyModal" tabindex="-1" role="dialog" aria-labelledby="neptunnyModalLabel" aria-hidden="true">
+<div class="modal fade h-50" id="neptunnyModal" tabindex="-1" role="dialog" aria-labelledby="neptunnyModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
          <div class="modal-header">
@@ -309,5 +338,66 @@ require 'inc/header.php';
       });
    });
 </script>
+
+<!-- Request Tutoring Modal -->
+<div id="request-modal" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <div class="modal-header text-center">
+            <h4 class="col modal-title text-center">Request Tutoring</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+
+         <div class="modal-body">
+            <form id="request-form">
+               <input id="tutor-id" type="hidden" name="id">
+               <div class="row form-group pr-3">
+                  <div class="col-3 col-form-label text-center" for="courses">
+                     <row><img id="tutor-img" class="img-fluid"></row>
+                     <row id="tutor-name" class="font-weight-bold"></row>
+                  </div>                     
+                  <select id="tutor-courses"  multiple class="col-9 form-control"name="courses" required>
+
+                  </select>
+               </div>
+               <div class="row form-group pr-3">
+                  <label class="col-3 col-form-label" for="name">Name</label>
+                  <input type="text" class="col-9 form-control" id="name" name="name" required>
+               </div>
+               <div class="row form-group pr-3">
+                  <label class="col-3 col-form-label" for="email">Email</label>
+                  <input type="email" class="col-9 form-control" id="email" name="email" required>
+               </div>
+               <div class="row form-group pr-3">
+                  <label class="col-3 col-form-label" for="phone">Mobile</label>
+                  <input type="tel" class="col-9 form-control" id="phone" name="phone" required>
+               </div>
+               <div class="form-group">
+                  <textarea class="form-control" id="message" name="message" rows="3" placeholder="Specify your desired days and times for tutoring, along with any other relevant information" required></textarea>
+               </div>
+               <div class="text-center">
+                  <input type="submit" class="btn btn-primary" name="submit" value="Send Request">
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Request Tutoring Confirmation Modal -->
+<div id="request-result-modal" class="modal fade">
+   <div class="modal-dialog modal-dialog-centered">
+      <div id="request-result-content" class="modal-content">
+         <div class="modal-header">
+            <div id="request-result-header"></div>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body" id="request-result-body">
+         </div>
+      </div>
+   </div>
+</div>
+
+<script src="js/request_tutoring.js"></script>
 
 <?php require 'inc/footer.php'; ?>
