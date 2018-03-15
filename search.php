@@ -30,7 +30,7 @@ require 'inc/header.php';
                   </button>
                </row>
                <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('1111', 'Neptunny', 'img/profile/card_neptune.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('1111', 'Neptunny', 'img/profile/card_neptune.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
                      Request Tutoring
                   </button>
                </row>
@@ -49,7 +49,7 @@ require 'inc/header.php';
                   </button>
                </row>
                <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('2222', 'Your Buddhy', 'img/profile/card_thai_statue.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('2222', 'Your Buddhy', 'img/profile/card_thai_statue.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
                      Request Tutoring
                   </button>
                </row>
@@ -68,7 +68,7 @@ require 'inc/header.php';
                   </button>
                </row>
                <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('3333', 'Some Palm Trees', 'img/profile/card_palm_tree.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('3333', 'Some Palm Trees', 'img/profile/card_palm_tree.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
                      Request Tutoring
                   </button>
                </row>
@@ -88,7 +88,7 @@ require 'inc/header.php';
                   </button>
                </row>
                <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('4444', 'Snowydan', 'img/profile/card_snowydan.jpg', 'MATH 100,CSCI 260,CSCI310,CSCI 320,CSCI 485,CSCI 123')">
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('4444', 'Snowydan', 'img/profile/card_snowydan.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
                      Request Tutoring
                   </button>
                </row>
@@ -354,7 +354,7 @@ require 'inc/header.php';
                      <row><img id="tutor-img" class="img-fluid"></row>
                      <row id="tutor-name" class="font-weight-bold"></row>
                   </div>                     
-                  <select id="tutor-courses"  multiple class="col-9 form-control"name="courses" required>
+                  <select id="tutor-courses"  multiple class="col-9 form-control" name="courses[]" required>
 
                   </select>
                </div>
@@ -374,7 +374,7 @@ require 'inc/header.php';
                   <textarea class="form-control" id="message" name="message" rows="3" placeholder="Specify your desired days and times for tutoring, along with any other relevant information" required></textarea>
                </div>
                <div class="text-center">
-                  <input type="submit" class="btn btn-primary" name="submit" value="Send Request">
+                  <input type="submit" class="btn btn-primary" value="Send Request">
                </div>
             </form>
          </div>
