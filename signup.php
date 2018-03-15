@@ -7,9 +7,10 @@
 			2018-02-20 Camille: made a copy and minor changes 
       2018-03-10 Camille: made major page edits- added personal info section
       2018-03-12 Camille: added course selection and tried implementing collapsible schedules
-      2018-03-14 Camille: 
+      2018-03-14 Camille: completed scheduling section & rest of file edits
 -->
 
+<!-- CSS written by CJ -->
 <style>
   .myForm, h2, h3, button {
     text-align: center;
@@ -666,40 +667,3 @@ require 'inc/header.php';
 
 <?php require 'inc/footer.php'; ?>
 
-<!--
-
-  <div class='container weekdays'>
-    <div class="row justify-content-center align-items-center"> 
-
-      <div class="col m-3">   
-          Monday
-          <div class='container small'>
-            <div class='row'>
-               <input type="checkbox" name="8am" value="8am"> 8am - 9am
-            </div>
-            <div class='row'>
-              9am - 10am
-            </div>
-            <div class='row'>
-              10am - 11am
-            </div>
-          </div>
-      </div>
-      <div class="col-1 m-3">   
-          <input type="checkbox" name="tuesday" value="tuesday"> Tuesday
-      </div>
-      <div class="col-1 m-3">   
-          <input type="checkbox" name="wednesday" value="wednesday"> Wednesday
-      </div>
-      <div class="col-1 m-3">   
-          <input type="checkbox" name="thursday" value="thursday"> Thursday
-      </div>
-      <div class="col-1 m-3">   
-          <input type="checkbox" name="friday" value="friday"> Friday
-      </div>
-      <div class="col-1 m-3">   
-          <input type="checkbox" name="saturday" value="saturday"> Saturday
-      </div>
-      <div class="col-1 m-3">   
-          <input type="checkbox" name="sunday" value="sunday"> Sunday
-      </div> -->
