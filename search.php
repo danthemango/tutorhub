@@ -22,14 +22,13 @@ try{
    $numResults = min($numRequested, $totalResults);
 
 ?>
-<section class="main h-100">
-   <div class="container-fluid h-100">
-      <div class="row">
-         <div class="col-12">
-            <h1 class="mt-3"> Search Results </h1>
-            <p><a href="./">&lt; Back to Search </a></p>
-         </div>
+<section class="container-fluid main h-100">
+   <div class="row">
+      <div class="col-12">
+         <h1 class="mt-3"> Search Results </h1>
+         <p><a href="./">&lt; Back to Search </a></p>
       </div>
+   </div>
 
 <?php
 
@@ -38,78 +37,76 @@ try{
    foreach($results as $row):
 
 ?>
-      <div class="row">
-         <div class="col-sm-6 col-lg-3">
-            <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="img/profile/<?=$row["avatar"]?>" alt="<?=$row["firstname"].' '.$row["lastname"].'\'s profile picture'?>">
-               <div class="card-body">
-               <h5 class="card-title"><?=$row["firstname"].' '.$row["lastname"]?></h5>
-                  <row>
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal-<?=$row["id"]?>">
-                        Check Schedule
-                     </button>
-                  </row>
-                  <row>
-                     <button type="button" class="btn btn-primary mt-1" onclick="generateRequest(<?="'{$row["id"]}','{$row["firstname"]} {$row["lastname"]}','img/profile/{$row["avatar"]}','MATH 100')"?>">
-                        Request Tutoring
-                     </button>
-                  </row>
-               </div>
+   <div class="row">
+      <div class="col-sm-6 col-lg-3">
+         <div class="card" style="width: 18rem;">
+         <img class="card-img-top" src="img/profile/<?=$row["avatar"]?>" alt="<?=$row["firstname"].' '.$row["lastname"].'\'s profile picture'?>">
+            <div class="card-body">
+            <h5 class="card-title"><?=$row["firstname"].' '.$row["lastname"]?></h5>
+               <row>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">
+                     Check Schedule
+                  </button>
+               </row>
+               <row>
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest(<?="'{$row["id"]}','{$row["firstname"]} {$row["lastname"]}','img/profile/{$row["avatar"]}','MATH 100')"?>">
+                     Request Tutoring
+                  </button>
+               </row>
             </div>
          </div>
       </div>
+   </div>
 
 <?php
    endforeach;
 ?>
 
-      <div class="row">
-         <div class="col-12">
+   <div class="row">
+      <div class="col-12">
          <p>Showing <?=$numResults?> results of <?=$totalResults?></p>
-         </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-           <ul class="pagination">
-             <li class="page-item disabled">
-               <a class="page-link" href="#">&laquo;</a>
-             </li>
-             <li class="page-item active">
-               <a class="page-link" href="#">1</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">2</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">3</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">4</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">5</a>
-             </li>
-             <li class="page-item">
-               <a class="page-link" href="#">&raquo;</a>
-             </li>
-           </ul>
-        </div>
       </div>
    </div>
+   <div class="row">
+     <div class="col-12">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo;</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">&raquo;</a>
+          </li>
+        </ul>
+     </div>
 </section>
 
-<!-- modal -->
-<div class="modal fade h-50" id="neptunny@tutorhub.com-scheduleModal" tabindex="-1" role="dialog" aria-labelledby="neptunny@tutorhub.com-scheduleModalLabel" aria-hidden="true">
+<!-- schedule modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="neptunny@tutorhub.com-scheduleModalLabel">Neptunny's Availabilities</h5>
+            <h5 class="modal-title" id="scheduleModalLabel">Neptunny's Availabilities</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
             </button>
          </div>
          <div class="modal-body">
-            <div id="neptunny@tutorhub.com-schedule"></div>
+            <div id="schedule"></div>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -121,9 +118,9 @@ try{
 <script>
    // put schedule information in the modal only once bootstrap constructs it
    // (which is after the user clicks to request it)
-   $('#neptunny@tutorhub.com-scheduleModal').on('shown.bs.modal',function(e){
+   $('#scheduleModal').on('shown.bs.modal',function(e){
       $(function () {
-         $("#neptunny@tutorhub.com-schedule").jqs({
+         $("#schedule").jqs({
             mode: "read",
             days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
             hour: 12,

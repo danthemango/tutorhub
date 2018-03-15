@@ -1,4 +1,4 @@
-DBINFO=dbinfo.inc
+DBINFO=inc/dbinfo.inc
 
 # initializes and pulls git files from any submodules
 initSubmodules:
