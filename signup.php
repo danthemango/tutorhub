@@ -652,56 +652,21 @@ require 'inc/header.php';
                   </label>
              </div>
           </div> <!-- end container -->
-      </div> <!-- end col, end Sunday -->
+       </div> <!-- end col, end Sunday -->
 
+      </div> <!-- close row -->
 
+    </div> <!-- end container -->
 
-    </div> <!-- close row -->
-
-  </div> <!-- end container -->
-
-
-
-  <input type="submit" value="Submit">
-  </form> 
+    <input type="submit" value="Submit">
+    
+   </form> 
 
   </section> <!-- end content -->
 
-  <!--
+<?php require 'inc/footer.php'; ?>
 
-<div class="container">
-  <h2>Simple Collapsible</h2>
-  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
-  <div id="demo" class="collapse">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  </div>
-</div>
-<a class="btn btn-outline-primary" href="#" role="button">Link</a>
-
-  <label class="btn btn-primary">
-    <input type="checkbox" autocomplete="off"> Checkbox 2
-  </label>
-
-  <div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-primary active">
-    <input type="checkbox" checked autocomplete="off"> Checkbox 1 (pre-checked)
-  </label>
-  <label class="btn btn-outline-primary">
-    <input type="checkbox" autocomplete="off"> Checkbox 2
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox" autocomplete="off"> Checkbox 3
-  </label>
-</div> -->
-
-<!-- ?php require 'inc/footer.php'; ?>
-
-
-
-
-
+<!--
 
   <div class='container weekdays'>
     <div class="row justify-content-center align-items-center"> 
@@ -737,11 +702,4 @@ require 'inc/header.php';
       </div>
       <div class="col-1 m-3">   
           <input type="checkbox" name="sunday" value="sunday"> Sunday
-      </div>
-
-
-
-    </div>  close row 
-
-</div> end container -->
-
+      </div> -->
