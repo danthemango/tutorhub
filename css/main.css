@@ -2,12 +2,17 @@ html, body {
    height: 100%;
 }
 
-body { 
-    background-image: url("../img/background.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}      
+section.main.h-100 {
+  padding-top: 65px;
+  padding-bottom: 65px;
+}
+
+section.main.h-100.with-background {
+  background-image: url("../img/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 footer {
    color: white;
@@ -16,4 +21,10 @@ footer {
    text-align: center;
    width: auto;
    padding-top: 1.5rem;
+}
+
+.form-whitebox {
+  padding: 5%;
+  border: 1px solid rgb(200,200,200);
+  background: white;
 }
