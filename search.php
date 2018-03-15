@@ -1,100 +1,71 @@
 <?php
+/*
+ * Group:    SCAD (Sami, Camille, Angelo, and Dan)
+ * Purpose:  To serve the search results from the Tutorhub databas
+ * Created:  2018-03-09 By Dan
+ * Modified: 2018-03-14 Angelo - Incorporated tutoring request code
+ * Modified: 2018-03-15 Dan - Fetching results from database
+ */
 $pagetitle = "Search";
-require 'inc/header.php';
+require_once 'inc/header.php';
+
+require_once("inc/dbinfo.inc");
+try{
+   $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
+   // get the number of results requested (default: 8)
+   $numRequested = isset($_GET['num']) ? $_GET['num'] : 8;
+   // the current page requested (default: 0)
+   $pageNum = isset($_GET['page']) ? $_GET['page'] : 0;
+   // number of results the user may view
+   $totalResults = ($dbh->query('select count(*) from profiles'))->fetchColumn();
+   // get the number of results actually displayed on page
+   $numResults = min($numRequested, $totalResults);
+
 ?>
-<!--
-   Group:    SCAD (Sami, Camille, Angelo, and Dan)
-   Purpose:  To serve the search results from the Tutorhub databas
-   Created:  2018-03-09 By Dan
-   Modified: 2018-03-14 Angelo - Incorporated tutoring request code
-   TODO: pull information from the database
--->
 <section class="container-fluid main h-100">
    <div class="row">
       <div class="col-12">
          <h1 class="mt-3"> Search Results </h1>
-         <p class="lead">Showing 4 results of 200</p>
          <p><a href="./">&lt; Back to Search </a></p>
       </div>
    </div>
+
+<?php
+
+   // get profiles
+   $results = $dbh->query('select * from profiles limit '.$pageNum*$numResults.','.$numResults);
+   foreach($results as $row):
+
+?>
    <div class="row">
       <div class="col-sm-6 col-lg-3">
          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="img/profile/card_neptune.jpg" alt="statue of the god, neptune">
+         <img class="card-img-top" src="img/profile/<?=$row["avatar"]?>" alt="<?=$row["firstname"].' '.$row["lastname"].'\'s profile picture'?>">
             <div class="card-body">
-               <h5 class="card-title">Neptunny</h5>
-               <p class="card-text">Neptunny will do anything you need, as long as you need it done under water.</p>
+            <h5 class="card-title"><?=$row["firstname"].' '.$row["lastname"]?></h5>
                <row>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#neptunnyModal">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">
                      Check Schedule
                   </button>
                </row>
                <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('1111', 'Neptunny', 'img/profile/card_neptune.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
-                     Request Tutoring
-                  </button>
-               </row>
-            </div>
-         </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="img/profile/card_thai_statue.jpg" alt="a smiling face statue in thailand">
-            <div class="card-body">
-               <h5 class="card-title">Your Buddhy</h5>
-               <p class="card-text">If you need a smile then Buddhy's your guy.</p>
-               <row>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buddhyModal">
-                     Check Schedule
-                  </button>
-               </row>
-               <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('2222', 'Your Buddhy', 'img/profile/card_thai_statue.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
-                     Request Tutoring
-                  </button>
-               </row>
-            </div>
-         </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="img/profile/card_palm_tree.jpg" alt="palm trees in the wind">
-            <div class="card-body">
-               <h5 class="card-title">Some Palm Trees</h5>
-               <p class="card-text">These trees will palm the shoes off your feet.</p>
-               <row>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#palmyModal">
-                     Check Schedule
-                  </button>
-               </row>
-               <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('3333', 'Some Palm Trees', 'img/profile/card_palm_tree.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
-                     Request Tutoring
-                  </button>
-               </row>
 
-            </div>
-         </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="img/profile/card_snowydan.jpg" alt="a man in snowy weather">
-            <div class="card-body">
-               <h5 class="card-title">Snowydan</h5>
-               <p class="card-text">Exactly like Sunnidan except 20% more efficient.</p>
-               <row>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#snowydanModal">
-                     Check Schedule
-                  </button>
-               </row>
-               <row>
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest('4444', 'Snowydan', 'img/profile/card_snowydan.jpg', 'MATH 100,CSCI 260,CSCI 310,CSCI 320,CSCI 485,CSCI 123')">
+                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest(<?="'{$row["id"]}','{$row["firstname"]} {$row["lastname"]}','img/profile/{$row["avatar"]}','MATH 100')"?>">
                      Request Tutoring
                   </button>
                </row>
-
             </div>
          </div>
+      </div>
+   </div>
+
+<?php
+   endforeach;
+?>
+
+   <div class="row">
+      <div class="col-12">
+         <p>Showing <?=$numResults?> results of <?=$totalResults?></p>
       </div>
    </div>
    <div class="row">
@@ -123,78 +94,20 @@ require 'inc/header.php';
           </li>
         </ul>
      </div>
-   </div>
 </section>
 
-<!-- neptunny's modal -->
-<div class="modal fade" id="neptunnyModal" tabindex="-1" role="dialog" aria-labelledby="neptunnyModalLabel" aria-hidden="true">
+<!-- schedule modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="neptunnyModalLabel">Neptunny's Availabilities</h5>
+            <h5 class="modal-title" id="scheduleModalLabel">Neptunny's Availabilities</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
             </button>
          </div>
          <div class="modal-body">
-            <div id="neptunnySchedule"></div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
-</div>
-<!-- buddhy's modal -->
-<div class="modal fade" id="buddhyModal" tabindex="-1" role="dialog" aria-labelledby="buddhyModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="buddhyModalLabel">Buddhy's Availabilities</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            <div id="buddhySchedule"></div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
-</div>
-<!-- palmy's modal -->
-<div class="modal fade" id="palmyModal" tabindex="-1" role="dialog" aria-labelledby="palmyModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="palmyModalLabel">Palmy's Availabilities</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            <div id="palmySchedule"></div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
-</div>
-<!-- snowydan's modal -->
-<div class="modal fade" id="snowydanModal" tabindex="-1" role="dialog" aria-labelledby="snowydanModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="snowydanModalLabel">Snowydan's Availabilities</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            <div id="snowydanSchedule" class="jqs-demo mb-3"></div>
+            <div id="schedule"></div>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -206,113 +119,9 @@ require 'inc/header.php';
 <script>
    // put schedule information in the modal only once bootstrap constructs it
    // (which is after the user clicks to request it)
-   $('#neptunnyModal').on('shown.bs.modal',function(e){
+   $('#scheduleModal').on('shown.bs.modal',function(e){
       $(function () {
-         $("#neptunnySchedule").jqs({
-            mode: "read",
-            days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
-            hour: 12,
-            data: [{
-               day: 0,
-               periods: [
-                  ["00:00", "02:00"],
-                  ["03:00", "06:00"],
-                  ["06:00", "07:00"],
-                  ["08:00", "09:00"],
-                  ["8pm","12am"],
-               ]
-            }, {
-               day: 3,
-               periods: [
-                  ["00:00", "08:30"],
-                  ["09:00", "12pm"],
-               ]
-            }]
-         });
-      });
-   });
-   $('#buddhyModal').on('shown.bs.modal',function(e){
-      $(function () {
-         $("#buddhySchedule").jqs({
-            mode: "read",
-            days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
-            hour: 12,
-            data: [{
-               day: 0,
-               periods: [
-                  ["5pm","10pm"],
-               ]
-            }, {
-               day: 1,
-               periods: [
-                  ["5pm","10pm"],
-               ]
-            }, {
-               day: 2,
-               periods: [
-                  ["5pm","10pm"],
-               ]
-            }, {
-               "day":3,
-               "periods":[
-                  {
-                     "start":"00:00",
-                     "end":"07:00",
-                     "title":"Bath Time",
-                     "backgroundColor":"rgba(255, 0, 0, 0.5)",
-                     "borderColor":"rgb(42, 60, 255)",
-                     "textColor":"rgb(0, 0, 0)",
-                  }, {
-                     "start":"10:00",
-                     "end":"11:00",
-                     "title":"",
-                     "backgroundColor":"rgba(82, 155, 255, 0.5)",
-                     "borderColor":"rgb(42, 60, 255)",
-                     "textColor":"rgb(0, 0, 0)",
-                  },
-               ]
-            }, {
-               day: 5,
-               periods: [
-                  ["6am","6pm"],
-               ]
-            }, {
-               day: 6,
-               periods: [
-                  ["6am","6pm"],
-               ]
-            }]
-         });
-      });
-   });
-   $('#palmyModal').on('shown.bs.modal',function(e){
-      $(function () {
-         $("#palmySchedule").jqs({
-            mode: "read",
-            days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
-            hour: 12,
-            data: [{
-               day: 0,
-               periods: [
-                  ["00:00", "02:00"],
-                  ["03:00", "06:00"],
-                  ["06:00", "07:00"],
-                  ["08:00", "09:00"],
-                  ["8pm","12am"],
-               ]
-            }, {
-               day: 3,
-               periods: [
-                  ["00:00", "08:30"],
-                  ["09:00", "12pm"],
-               ]
-            }]
-         });
-      });
-   });
-   $('#snowydanModal').on('shown.bs.modal',function(e){
-      $(function () {
-         $("#snowydanSchedule").jqs({
+         $("#schedule").jqs({
             mode: "read",
             days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
             hour: 12,
@@ -398,4 +207,12 @@ require 'inc/header.php';
 
 <script src="js/request_tutoring.js"></script>
 
-<?php require 'inc/footer.php'; ?>
+<?php 
+   
+}catch(PDOException $e){
+   echo "Error: " . $e->getMessage() . "<br />";
+}
+
+require_once 'inc/footer.php'; 
+
+?>

@@ -1,4 +1,4 @@
-DBINFO=dbinfo.inc
+DBINFO=inc/dbinfo.inc
 
 # initializes and pulls git files from any submodules
 initSubmodules:
@@ -15,7 +15,7 @@ bind:
 	docker exec -ti tutorhubApache /bin/bash
 
 # creates a inc/dbinfo.inc file based on the default credentials (should match those in res/docker-compose.yml)
-createDbinfo:
+dbinfo:
 	echo "<?php" > ${DBINFO}
 	echo "   \$$host = 'localhost'" >> ${DBINFO}
 	echo "   \$$user = 'csci311c'" >> ${DBINFO}

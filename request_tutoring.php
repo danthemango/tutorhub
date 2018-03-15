@@ -1,14 +1,16 @@
 <?php
 
-require_once './inc/twilio.inc'; // Loads secrets
-require_once './res/Twilio/Twilio/autoload.php'; // Loads the library
+require_once './inc/dbinfo.inc'; // Loads database secrets
+require_once './inc/twilio.inc'; // Loads Twilio secrets
+require_once './res/Twilio/Twilio/autoload.php'; // Loads the Twilio library
  
 use Twilio\Rest\Client;
 
 $err = false;
 
+// TODO: Add sanitization of ID (verify it is a number)
 if (isset($_POST['id'])) {
-	$name = $_POST['id'];
+	$id = $_POST['id'];
 } else {
 	$err = true;
 }
@@ -43,19 +45,35 @@ if (isset($_POST['message'])) {
 	$err = true;
 }
 
-if ($err) {
-	http_response_code(400);
-} else {
-	$body = "$name has requested tutoring in $courses and sent you the following message:\n\n$message\n\nYou can reach them at $email or $phone";
+try {
+   $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
+   $result = $dbh->query("SELECT * FROM profiles WHERE id=$id");
 
-	$client = new Client($account_sid, $auth_token);
-	$client->messages->create(
-		"+16045375079",
-		array(
-			'from' => $twilio_number,
-			'body' => "$body",
-		)
-	);
+	foreach ($result as $row) {
+		$tutor_firstname = $row['firstname'];
+   	// $tutor_phone = $row['phone'];
+	}
+
+   if (!$tutor_firstname or !$tutor_phone) {
+   	$err = true;
+   }
+
+	if ($err) {
+		http_response_code(400);
+	} else {
+		$body = "Hi $tutor_firstname! $name has requested tutoring in $courses and sent you the following message:\n\n$message\n\nYou can reach them at $email or $phone";
+
+		$client = new Client($account_sid, $auth_token);
+		$client->messages->create(
+			$tutor_phone,
+			array(
+				'from' => $twilio_number,
+				'body' => "$body",
+			)
+		);
+	}
+} catch (Exception $e) {
+   http_response_code(400);
 }
 
 ?>
