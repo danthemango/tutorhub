@@ -90,15 +90,15 @@ require 'inc/header.php';
     <div class="row">
       <div class="col-md-3"> <h4> First year: </h4></div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci160" value="CSCI160"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI160"> 
           CSCI160 <br> <small> Computing Science I </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci161" value="CSCI161"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI161"> 
           CSCI161 <br> <small> Computing Science II </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci162" value="CSCI162"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI162"> 
           CSCI162 <br> <small> Topics in Computing Science </small>
       </div>
 
@@ -117,15 +117,15 @@ require 'inc/header.php';
           CSCI251 <br> <small> Systems and Networks </small>
       </div>-->
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci260" value="CSCI260"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI260"> 
           CSCI260 <br> <small> Data Structures and Algorithms </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci261" value="CSCI261"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI261"> 
           CSCI261 <br> <small> Computer Architecture and Assembly Language </small>
       </div>
         <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci265" value="CSCI265"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI265"> 
           CSCI265 <br> <small> Software Engineering </small>
       </div>
 
@@ -140,20 +140,20 @@ require 'inc/header.php';
     <div class="row">
       <div class="col-md-3"> <h4> Third year: </h4></div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci310" value="CSCI310"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI310"> 
           CSCI310 <br> <small> Introduction to Human-Computer Interaction </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci311" value="CSCI311"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI311"> 
           CSCI311 <br> <small> Web Programming </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci320" value="CSCI320"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI320"> 
           CSCI320 <br> <small> Foundations of Computer Science </small>
       </div>
 
     </div> <!-- close row -->
-
+ 
   </div> <!-- end container -->
 
  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ More third year courses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -162,15 +162,15 @@ require 'inc/header.php';
     <div class="row">
       <div class="col-md-3"> </div>
         <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci330" value="CSCI330"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI330"> 
           CSCI330 <br> <small> Programming Languages </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci355" value="CSCI355"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI355"> 
           CSCI355 <br> <small> Digital Logic and Computer Organization </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci370" value="CSCI370"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI370"> 
           CSCI370 <br> <small> Database Systems </small>
       </div>
 
@@ -184,15 +184,15 @@ require 'inc/header.php';
     <div class="row">
       <div class="col-md-3"> <h4> Fourth year: </h4></div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci400" value="CSCI400"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI400"> 
           CSCI400 <br> <small> Computers and Society </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci460" value="CSCI460"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI460"> 
           CSCI460 <br> <small> Networks and Communications </small>
       </div>
       <div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci485" value="CSCI485"> 
+          <input class='courses' type="checkbox" name="classes[]" value="CSCI485"> 
           CSCI485 <br> <small> Topics in Systems </small>
       </div>
 
