@@ -2,16 +2,20 @@ html, body {
    height: 100%;
 }
 
-section.main.h-100 {
+section.main {
   padding-top: 65px;
   padding-bottom: 65px;
 }
 
-section.main.h-100.with-background {
+section.main.with-background {
   background-image: url("../img/background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+section.main.with-overflow > *:last-child {
+    margin-bottom: 65px;
 }
 
 footer {

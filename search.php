@@ -51,6 +51,7 @@ try{
                   </button>
                </row>
                <row>
+
                   <button type="button" class="btn btn-primary mt-1" onclick="generateRequest(<?="'{$row["id"]}','{$row["firstname"]} {$row["lastname"]}','img/profile/{$row["avatar"]}','MATH 100')"?>">
                      Request Tutoring
                   </button>
@@ -164,7 +165,7 @@ try{
                      <row><img id="tutor-img" class="img-fluid"></row>
                      <row id="tutor-name" class="font-weight-bold"></row>
                   </div>                     
-                  <select id="tutor-courses"  multiple class="col-9 form-control"name="courses" required>
+                  <select id="tutor-courses"  multiple class="col-9 form-control" name="courses[]" required>
 
                   </select>
                </div>
@@ -184,7 +185,7 @@ try{
                   <textarea class="form-control" id="message" name="message" rows="3" placeholder="Specify your desired days and times for tutoring, along with any other relevant information" required></textarea>
                </div>
                <div class="text-center">
-                  <input type="submit" class="btn btn-primary" name="submit" value="Send Request">
+                  <input type="submit" class="btn btn-primary" value="Send Request">
                </div>
             </form>
          </div>

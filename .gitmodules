@@ -1,3 +1,6 @@
 [submodule "res/jquery-schedule"]
 	path = res/jquery-schedule
 	url = https://github.com/Yehzuna/jquery-schedule
+[submodule "inc/Twilio"]
+	path = res/Twilio
+	url = https://github.com/twilio/twilio-php
