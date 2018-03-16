@@ -13,13 +13,13 @@ require_once("inc/dbinfo.inc");
 try{
    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
    // get the number of results requested (default: 8)
-   $numRequested = isset($_GET['num']) ? $_GET['num'] : 8;
+   $resultsPerPage = isset($_GET['resultsPerPage']) ? $_GET['resultsPerPage'] : 8;
    // the current page requested (default: 0)
    $pageNum = isset($_GET['page']) ? $_GET['page'] : 0;
-   // number of results the user may view
+   // number of search results returned
    $totalResults = ($dbh->query('select count(*) from profiles'))->fetchColumn();
    // get the number of results actually displayed on page
-   $numResults = min($numRequested, $totalResults);
+   $resultsOnPage = min($resultsPerPage, $totalResults);
 
 ?>
 <section class="container-fluid main h-100">
@@ -33,7 +33,9 @@ try{
 <?php
 
    // get profiles
-   $results = $dbh->query('select * from profiles limit '.$pageNum*$numResults.','.$numResults);
+   $results = $dbh->query(
+      'select id, firstname, lastname, phone, avatar from profiles where type = "tutor" limit '.$pageNum*$resultsPerPage.','.$resultsPerPage
+   );
    foreach($results as $row):
 
 ?>
@@ -64,7 +66,7 @@ try{
 
    <div class="row">
       <div class="col-12">
-         <p>Showing <?=$numResults?> results of <?=$totalResults?></p>
+         <p>Showing <?=$resultsOnPage?> results of <?=$totalResults?></p>
       </div>
    </div>
    <div class="row">
