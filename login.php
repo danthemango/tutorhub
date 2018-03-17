@@ -11,7 +11,7 @@ require 'inc/header.php';
 
 ?>
 
-<div class="container-fluid h-100">
+<section class="container-fluid main h-100 with-background">
    <div class="row h-100 justify-content-center align-items-center">
       <div class="col-lg-4 col-md-8 col-xxs-12">
          <form class="form-whitebox">
@@ -35,6 +35,6 @@ require 'inc/header.php';
          </form>
       </div>
    </div>
-</div>
+</section>
 
 <?php require 'inc/footer.php'; ?>

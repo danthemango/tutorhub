@@ -5,7 +5,7 @@ function generateRequest(id, name, img, courses) {
    coursesArr = courses.split(",");
    document.getElementById("tutor-courses").innerHTML = "";
    for (var i = 0; i < coursesArr.length; i++) {
-      document.getElementById("tutor-courses").innerHTML += "<option>" + coursesArr[i] + "</option>";
+      document.getElementById("tutor-courses").innerHTML += "<option value='" + coursesArr[i] + "'>" + coursesArr[i] + "</option>";
    }
    $('#request-modal').modal('show');
 }
@@ -14,16 +14,14 @@ $(function() {
    $('#request-form').on('submit', function(e) {
       $('#request-modal').modal('hide');
       e.preventDefault();
-      var formData = $("#request-form").serialize();
-      $('#request-form').trigger('reset');
       $.ajax({
          url: "request_tutoring.php",
          type: "POST",
-         data: formData,
+         data: $("#request-form").serialize(),
          success: function(data) {
             $('#request-result-content').attr('class', 'modal-content alert alert-info');
             $('#request-result-header').text("Request Sent");
-            $('#request-result-body').text(formData);
+            $('#request-result-body').text("Your tutoring request has been sent.");
             $('#request-result-modal').modal('show');
          },
          error: function(xhr, statusText, err) {
@@ -33,5 +31,6 @@ $(function() {
             $('#request-result-modal').modal('show');
          }
       });
+      $('#request-form').trigger('reset');
    });
 });
