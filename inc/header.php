@@ -33,15 +33,7 @@
            </button>
 
            <div class="collapse navbar-collapse" id="navbarColor01">
-             <ul class="navbar-nav mr-auto">
-               <li class="nav-item active">
-                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-               </li>
-               <li class="nav-item">
-                 <a class="nav-link" href="#">Find Tutor</a>
-               </li>
-             </ul>
-             <ul class="nav navbar-nav navbar-right">
+             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                <li><a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Become a Tutor</a></li>
                <li><a class="nav-link" href="login.php"><span class="glyphicon glyphicon-log-in"></span> Tutor Sign In</a></li>
              </ul>
