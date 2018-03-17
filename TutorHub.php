@@ -1,5 +1,5 @@
 <!-- Created by Sami Al-Qusus March 3, 2018-->
-<!-- modified March 4, 2018 -->
+<!-- modified March 16, 2018 -->
 <!-- TutorHub.html required for TutorHub project -->
 <?php 
 $pagetitle = "Welcome";
@@ -16,7 +16,7 @@ require 'inc/header.php';
    </section>
    <section id="section1"><br><br><br><br>
     <form class="text-center" method="post" action="action.php">
-      <label for="course" >Pick the course you would like to find a tutor for:</label><br>
+      <label for="course" ><b>Pick the course you would like to find a tutor for:</b></label><br>
       <select multiple id="course" name="course[]">
         <option value="CSCI112">CSCI 112 - (Applications Programming)</option>
         <option value="CSCI115">CSCI 115 - (Web Page Techniques)</option>
@@ -35,7 +35,7 @@ require 'inc/header.php';
         <option value="CSCI375">CSCI 375 - (Intro to Systems Analysis)</option>
         <option value="CSCI400">CSCI 400 - (Computers and Society)</option>
       </select><br><br>
-      <p>Check all the times that work for you: &nbsp;
+      <p><b>Check all the times that work for you:</b> &nbsp;
       <input id="day" type="checkbox" name="day" value="any">All</p>
       <div class="table-responsive">
       <table class="table">
@@ -78,6 +78,7 @@ require 'inc/header.php';
        </tbody>
      </thead>
      </table>
+     <input class="btn btn-primary btn-lg"  type="submit" value="Submit">
      </div>
     </form>
    </section>
