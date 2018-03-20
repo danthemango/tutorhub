@@ -7,14 +7,14 @@ section.main {
   padding-bottom: 65px;
 }
 
-section.main.with-background {
+section.with-background {
   background-image: url("../img/background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-section.main.with-overflow > *:last-child {
+section.with-overflow > *:last-child {
     margin-bottom: 65px;
 }
 
