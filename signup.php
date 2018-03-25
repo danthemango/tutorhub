@@ -50,7 +50,7 @@ require 'inc/header.php';
 
 ?>
 
-   <section class="main h-100">
+   <section class="main h-100 container-fluid width-overflow width-background">
       <div class="jumbotron">
         <h1 class="display-3">Sign up now!</h1>
       </div>
