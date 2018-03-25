@@ -6,8 +6,10 @@
  */
 
 /* e.g.
-   to change the columns of a table use:
+   to add a column to the table:
    ALTER TABLE profiles ADD COLUMN pay DECIMAL(13,2) NOT NULL DEFAULT 20.00;
+   to increase the security of password hashes:
+   ALTER TABLE profiles MODIFY password VARCHAR(256); 
    to change a value in the table:
    UPDATE profiles SET pay = 18 WHERE id = 3;
 */
@@ -16,7 +18,7 @@
 create table profiles (
    id          SERIAL,
    email       VARCHAR(40)    NOT NULL UNIQUE,
-   password    VARCHAR(40),   -- TODO NOT NULL,
+   password    VARCHAR(128),   -- TODO NOT NULL,
    firstname   VARCHAR(40),
    lastname    VARCHAR(40),
    phone       VARCHAR(40),
