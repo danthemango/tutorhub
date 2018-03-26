@@ -31,5 +31,18 @@ To set up your own copy of this website to host / develop / test:
 ?>
 ```
 
-### Using docker-compose
-Assuming you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed then run `docker-compose -f res/docker-compose.yml up` to spin up an Apache and a MySQL container for local development, which should provide access to the website via localhost:8000
+### Docker-Compose
+Assuming you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed then you may use use the the file ops/docker-swarm.yml to automatically start build and start up compatible php/apache and mysql containers. To use our ready-made makefile to test our service use the following:
+
+#### Container Startup
+1. Create the credentials file: `make inc/dbinfo.inc`
+   - Used to connect the php code with the database. Please change credentials before deployment.
+1. Create the containers: `make build`
+1. Activate the containers: `make up`
+
+#### Container Management
+Once the containers are activated the website may be loaded on a browser at address '127.0.0.1:8000'.
+- use `make bindApache` to open a bash terminal on the Apache server
+- use `make bindDb` to open a bash terminal on the Apache server
+- use `make down` to turn the containers off
+- use `make rm` to delete the containers

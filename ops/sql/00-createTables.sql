@@ -1,7 +1,7 @@
 /*
  * Group:    SCAD (Sami, Camille, Angelo, and Dan)
  * Purpose:  creates the tables needed for this project
- * Created:  2018-03-14 by Daniel 
+ * Created:  2018-03-14 by Daniel
  * Modified: -
  */
 
@@ -9,7 +9,7 @@
 create table profiles (
    id          SERIAL,
    email       VARCHAR(40)    NOT NULL UNIQUE,
-   password    VARCHAR(40),   -- TODO NOT NULL,
+   password    VARCHAR(128),   -- TODO NOT NULL,
    firstname   VARCHAR(40),
    lastname    VARCHAR(40),
    phone       VARCHAR(40),
@@ -38,7 +38,7 @@ create table skills (
 create table times(
    id          BIGINT UNSIGNED NOT NULL,
    -- daynum is the day of the week as a number 0..6 == monday..sunday
-   daynum      INT         NOT NULL,         
+   daynum      INT         NOT NULL,
    starttime   TIME        NOT NULL,
    endtime     TIME        NOT NULL,
    PRIMARY     KEY(id,daynum,starttime,endtime),
