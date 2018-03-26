@@ -1,27 +1,27 @@
-version: "3"
+version: '3.2'
 services:
    www:
-      container_name: tutorhubApache
       image: php:7.0.27-apache
+      container_name: tutorhubApache
       ports:
          - "8000:80"
+      build: www
       volumes:
-         - ..:/var/www/html
+         - ../:/var/www/public
       links:
          - db
-
+#      deploy: www
+#      extra_hosts:
+#         - "wwwstu.csci.viu.ca:127.0.0.1"
    db:
-      container_name: tutorhubDb
       image: mysql
+      container_name: tutorhubDb
       ports:
-         - "3306"
+         - "3306:3306"
       environment:
          MYSQL_DATABASE: csci311c
          MYSQL_USER: csci311c
          MYSQL_PASSWORD: semisecret
          MYSQL_ROOT_PASSWORD: supersecret
-      volumes:
-         - ./dump:/docker-entrypoint-initdb.d
-         - persistent:/var/lib/mysql
-volumes:
-   persistent:
+      volumes: # set up the tables
+         - ../ops/sql/:/docker-entrypoint-initdb.d

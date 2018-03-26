@@ -10,16 +10,17 @@ $pagetitle = "Search";
 require_once 'inc/header.php';
 
 require_once("inc/dbinfo.inc");
+
 try{
    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
    // get the number of results requested (default: 8)
-   $numRequested = isset($_GET['num']) ? $_GET['num'] : 8;
+   $resultsPerPage = isset($_GET['resultsPerPage']) ? $_GET['resultsPerPage'] : 8;
    // the current page requested (default: 0)
    $pageNum = isset($_GET['page']) ? $_GET['page'] : 0;
-   // number of results the user may view
+   // number of search results returned
    $totalResults = ($dbh->query('select count(*) from profiles'))->fetchColumn();
    // get the number of results actually displayed on page
-   $numResults = min($numRequested, $totalResults);
+   $resultsOnPage = min($resultsPerPage, $totalResults);
 
 ?>
 <section class="container-fluid main h-100">
@@ -29,15 +30,16 @@ try{
          <p><a href="./">&lt; Back to Search </a></p>
       </div>
    </div>
-
+   <div class="row">
 <?php
 
    // get profiles
-   $results = $dbh->query('select * from profiles limit '.$pageNum*$numResults.','.$numResults);
+   $results = $dbh->query(
+      'select id, firstname, lastname, phone, avatar from profiles where type = "tutor" limit '.$pageNum*$resultsPerPage.','.$resultsPerPage
+   );
    foreach($results as $row):
 
 ?>
-   <div class="row">
       <div class="col-sm-6 col-lg-3">
          <div class="card" style="width: 18rem;">
          <img class="card-img-top" src="img/profile/<?=$row["avatar"]?>" alt="<?=$row["firstname"].' '.$row["lastname"].'\'s profile picture'?>">
@@ -57,15 +59,14 @@ try{
             </div>
          </div>
       </div>
-   </div>
 
 <?php
    endforeach;
 ?>
-
+   </div>
    <div class="row">
       <div class="col-12">
-         <p>Showing <?=$numResults?> results of <?=$totalResults?></p>
+         <p>Showing <?=$resultsOnPage?> results of <?=$totalResults?></p>
       </div>
    </div>
    <div class="row">
@@ -162,7 +163,7 @@ try{
                   <div class="col-3 col-form-label text-center" for="courses">
                      <row><img id="tutor-img" class="img-fluid"></row>
                      <row id="tutor-name" class="font-weight-bold"></row>
-                  </div>                     
+                  </div>
                   <select id="tutor-courses"  multiple class="col-9 form-control" name="courses[]" required>
 
                   </select>
@@ -207,12 +208,11 @@ try{
 
 <script src="js/request_tutoring.js"></script>
 
-<?php 
-   
+<?php
 }catch(PDOException $e){
    echo "Error: " . $e->getMessage() . "<br />";
 }
 
-require_once 'inc/footer.php'; 
+require_once 'inc/footer.php';
 
 ?>

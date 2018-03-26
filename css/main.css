@@ -3,18 +3,18 @@ html, body {
 }
 
 section.main {
-  padding-top: 65px;
-  padding-bottom: 65px;
+  padding-top: 85px;
+  padding-bottom: 85px;
 }
 
-section.main.with-background {
+section.with-background {
   background-image: url("../img/background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-section.main.with-overflow > *:last-child {
+section.with-overflow > *:last-child {
     margin-bottom: 65px;
 }
 

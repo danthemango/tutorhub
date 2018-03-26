@@ -19,6 +19,7 @@ The student - tutor matchup website
 ## Usage
 To set up your own copy of this website to host / develop / test:
 - clone directory: `git clone https://github.com/danthemango/tutorhub`
+- open directory: `cd tutorhub`
 - pull submodules: `git submodule update --init --recursive`
 - create file for SQL credentials in `inc/dbinfo.inc` with the server-side credentials:
    - (or run `make dbinfo` to use the docker-compose defaults)
@@ -31,5 +32,25 @@ To set up your own copy of this website to host / develop / test:
 ?>
 ```
 
-### Using docker-compose
-Assuming you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed then run `docker-compose -f res/docker-compose.yml up` to spin up an Apache and a MySQL container for local development, which should provide access to the website via localhost:8000
+### Docker-Compose
+The file ops/docker-swarm.yml specifies the basic container building routines needed for this project.
+
+#### Container Startup
+Assuming:
+- You have [Docker](https://www.docker.com/) installed
+- [Docker-Compose](https://docs.docker.com/compose/) installed
+- Bash, Git, and Make installed
+- [clone this repository and initialized submodules](#usage)
+
+Then you may use the Makefile provided in in this reposity to startup the containers with a handful of targets:
+1. Create the credentials file: `make inc/dbinfo.inc`
+   - Used to connect the php code with the database. Please change credentials before deployment.
+1. Create the containers: `make build`
+1. Activate the containers: `make up`
+
+#### Container Management
+Once the containers are activated the website may be loaded on a browser at address '127.0.0.1:8000'.
+- use `make bindApache` to open a bash terminal on the Apache server
+- use `make bindDb` to open a bash terminal on the Apache server
+- use `make down` to turn the containers off
+- use `make rm` to delete the containers
