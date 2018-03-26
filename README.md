@@ -19,6 +19,7 @@ The student - tutor matchup website
 ## Usage
 To set up your own copy of this website to host / develop / test:
 - clone directory: `git clone https://github.com/danthemango/tutorhub`
+- open directory: `cd tutorhub`
 - pull submodules: `git submodule update --init --recursive`
 - create file for SQL credentials in `inc/dbinfo.inc` with the server-side credentials:
    - (or run `make dbinfo` to use the docker-compose defaults)
@@ -32,10 +33,16 @@ To set up your own copy of this website to host / develop / test:
 ```
 
 ### Docker-Compose
-Assuming you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed then you may use use the the file ops/docker-swarm.yml to automatically start build and start up compatible php/apache and mysql containers.
+The file ops/docker-swarm.yml specifies the basic container building routines needed for this project.
 
 #### Container Startup
-Assuming you have [Make](https://www.gnu.org/software/make/) and some version of bash (or [Git Bash](https://gitforwindows.org/)) installed, have copied the repository (`git clone https://github.com/danthemango/tutorhub`) and added the submodules (`git submodule update --init --recursive`), you may use the provided Makefile included in this reposity to startup the containers with a handful of targets:
+Assuming:
+- You have [Docker](https://www.docker.com/) installed
+- [Docker-Compose](https://docs.docker.com/compose/) installed
+- Bash, Git, and Make installed
+- [clone this repository and initialized submodules](#usage)
+
+Then you may use the Makefile provided in in this reposity to startup the containers with a handful of targets:
 1. Create the credentials file: `make inc/dbinfo.inc`
    - Used to connect the php code with the database. Please change credentials before deployment.
 1. Create the containers: `make build`
