@@ -5,6 +5,15 @@
  * Modified: -
  */
 
+/* e.g.
+   to add a column to the table:
+   ALTER TABLE profiles ADD COLUMN pay DECIMAL(13,2) NOT NULL DEFAULT 20.00;
+   to increase the security of password hashes:
+   ALTER TABLE profiles MODIFY password VARCHAR(256); 
+   to change a value in the table:
+   UPDATE profiles SET pay = 18 WHERE id = 3;
+*/
+
 -- profiles will be used to remember information about tutors who have signed up
 create table profiles (
    id          SERIAL,
@@ -14,6 +23,8 @@ create table profiles (
    lastname    VARCHAR(40),
    phone       VARCHAR(40),
    date_joined DATETIME,
+   ptype       VARCHAR(20)    NOT NULL DEFAULT "tutor",
+   pay         DECIMAL(13,2)  NOT NULL DEFAULT 20.00,
    avatar      VARCHAR(20)    NOT NULL DEFAULT "avatar.png",
    PRIMARY KEY(id)
 );
