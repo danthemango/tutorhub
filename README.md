@@ -32,9 +32,10 @@ To set up your own copy of this website to host / develop / test:
 ```
 
 ### Docker-Compose
-Assuming you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed then you may use use the the file ops/docker-swarm.yml to automatically start build and start up compatible php/apache and mysql containers. To use our ready-made makefile to test our service use the following:
+Assuming you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed then you may use use the the file ops/docker-swarm.yml to automatically start build and start up compatible php/apache and mysql containers.
 
 #### Container Startup
+Assuming you have [Make](https://www.gnu.org/software/make/) and some version of bash (or [Git Bash](https://gitforwindows.org/)) installed, have copied the repository (`git clone https://github.com/danthemango/tutorhub`) and added the submodules (`git submodule update --init --recursive`), you may use the provided Makefile included in this reposity to startup the containers with a handful of targets:
 1. Create the credentials file: `make inc/dbinfo.inc`
    - Used to connect the php code with the database. Please change credentials before deployment.
 1. Create the containers: `make build`
