@@ -8,6 +8,7 @@
       2018-03-10 Camille: made major page edits- added personal info section
       2018-03-12 Camille: added course selection and tried implementing collapsible schedules
       2018-03-14 Camille: completed scheduling section & rest of file edits
+      2018-03-26 Camille: added hourly rate, fixed layout issues and padding, changed hourly inputs
 -->
 
 <!-- CSS written by CJ -->
@@ -38,6 +39,20 @@
 
   .weekdays {
     font-size: 80%;
+    padding-bottom: 10%;
+  }
+
+  /* for hourly availability */
+  .timeSlots {
+    background-color: #1E90FF;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    font-size: 80%;
+  }
+
+  .timeSlots:hover {
+    background-color: #4682B4;
   }
 
 
@@ -60,7 +75,7 @@ require 'inc/header.php';
   <h2> Profile Creation </h2>
   <h3> Personal Information </h3>
 
-  <form action="#" class='myForm'>
+  <form action="submitSignup.php" method='post' class='myForm'>
   First name:<br>
   <input type="text" name="firstname">
   <br>
@@ -75,7 +90,10 @@ require 'inc/header.php';
   <br>
   Phone number: <br>
   <input type="text" name="phone">
-  <br><br><br><br>
+  <br>
+  Hourly rate:<br>
+  $ <input type="text" name="rate">
+  <br><br>
 
   <hr>
 
@@ -109,13 +127,11 @@ require 'inc/header.php';
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Second year courses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
+  
+
   <div class='container-fluid'>
     <div class="row">
       <div class="col-md-3"> <h4> Second year: </h4></div>
-      <!--<div class="col-md-3">   
-          <input class='courses' type="checkbox" name="csci251" value="CSCI251"> 
-          CSCI251 <br> <small> Systems and Networks </small>
-      </div>-->
       <div class="col-md-3">   
           <input class='courses' type="checkbox" name="classes[]" value="CSCI260"> 
           CSCI260 <br> <small> Data Structures and Algorithms </small>
@@ -215,59 +231,59 @@ require 'inc/header.php';
       <div class="col">   
          Monday
          <div class='container small'> 
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m8am" value="m8am"> 8am - 9am
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="8to9"> 8am - 9am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m9am" value="m9am"> 9am - 10am
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="9to10"> 9am - 10am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m10am" value="m10am"> 10am - 11am
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="10to11"> 10am - 11am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m11am" value="m11am"> 11am - 12pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="11to12"> 11am - 12pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m12pm" value="m12pm"> 12pm - 1pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="12to1"> 12pm - 1pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m1pm" value="m1pm"> 1pm - 2pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="1to2"> 1pm - 2pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m2pm" value="m2pm"> 2pm - 3pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="2to3"> 2pm - 3pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m3pm" value="m3pm"> 3pm - 4pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="3to4"> 3pm - 4pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m4pm" value="m4pm"> 4pm - 5pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="4to5"> 4pm - 5pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m5pm" value="m5pm"> 5pm - 6pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
+                      <input type="checkbox" name="times[monday][] " value="5to6"> 5pm - 6pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
-                      <input type="checkbox" name="m6pm" value="m6pm"> 6pm - 7pm
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info" >
+                      <input type="checkbox" name="times[monday][] " value="6to7"> 6pm - 7pm
                   </label>
              </div>
           </div> <!-- end container -->
@@ -278,58 +294,58 @@ require 'inc/header.php';
       <div class="col">   
          Tuesday
          <div class='container small'> 
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu8am" value="tu8am"> 8am - 9am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu9am" value="tu9am"> 9am - 10am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu10am" value="tu10am"> 10am - 11am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu11am" value="tu11am"> 11am - 12pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu12pm" value="tu12pm"> 12pm - 1pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu1pm" value="tu1pm"> 1pm - 2pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu2pm" value="tu2pm"> 2pm - 3pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu3pm" value="tu3pm"> 3pm - 4pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu4pm" value="tu4pm"> 4pm - 5pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu5pm" value="tu5pm"> 5pm - 6pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="tu6pm" value="tu6pm"> 6pm - 7pm
                   </label>
              </div>
@@ -342,58 +358,58 @@ require 'inc/header.php';
       <div class="col">   
          Wednesday
          <div class='container small'> 
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w8am" value="w8am"> 8am - 9am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w9am" value="w9am"> 9am - 10am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w10am" value="w10am"> 10am - 11am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w11am" value="w11am"> 11am - 12pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w12pm" value="w12pm"> 12pm - 1pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w1pm" value="w1pm"> 1pm - 2pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w2pm" value="w2pm"> 2pm - 3pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w3pm" value="w3pm"> 3pm - 4pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w4pm" value="w4pm"> 4pm - 5pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w5pm" value="w5pm"> 5pm - 6pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="w6pm" value="w6pm"> 6pm - 7pm
                   </label>
              </div>
@@ -406,58 +422,58 @@ require 'inc/header.php';
       <div class="col">   
          Thursday
          <div class='container small'> 
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th8am" value="th8am"> 8am - 9am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th9am" value="th9am"> 9am - 10am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th10am" value="th10am"> 10am - 11am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th11am" value="th11am"> 11am - 12pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th12pm" value="th12pm"> 12pm - 1pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th1pm" value="th1pm"> 1pm - 2pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th2pm" value="th2pm"> 2pm - 3pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th3pm" value="th3pm"> 3pm - 4pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th4pm" value="th4pm"> 4pm - 5pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th5pm" value="th5pm"> 5pm - 6pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="th6pm" value="th6pm"> 6pm - 7pm
                   </label>
              </div>
@@ -470,58 +486,58 @@ require 'inc/header.php';
       <div class="col">   
          Friday
          <div class='container small'> 
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f8am" value="f8am"> 8am - 9am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f9am" value="f9am"> 9am - 10am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f10am" value="f10am"> 10am - 11am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f11am" value="f11am"> 11am - 12pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f12pm" value="f12pm"> 12pm - 1pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f1pm" value="f1pm"> 1pm - 2pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f2pm" value="f2pm"> 2pm - 3pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f3pm" value="f3pm"> 3pm - 4pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info" >
                       <input type="checkbox" name="f4pm" value="f4pm"> 4pm - 5pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f5pm" value="f5pm"> 5pm - 6pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="f6pm" value="f6pm"> 6pm - 7pm
                   </label>
              </div>
@@ -534,58 +550,58 @@ require 'inc/header.php';
       <div class="col">   
          Saturday
          <div class='container small'> 
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa8am" value="sa8am"> 8am - 9am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa9am" value="sa9am"> 9am - 10am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa10am" value="sa10am"> 10am - 11am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa11am" value="sa11am"> 11am - 12pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa12pm" value="sa12pm"> 12pm - 1pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa1pm" value="sa1pm"> 1pm - 2pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa2pm" value="sa2pm"> 2pm - 3pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa3pm" value="sa3pm"> 3pm - 4pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa4pm" value="sa4pm"> 4pm - 5pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa5pm" value="sa5pm"> 5pm - 6pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="sa6pm" value="sa6pm"> 6pm - 7pm
                   </label>
              </div>
@@ -597,58 +613,58 @@ require 'inc/header.php';
            <div class="col">   
          Sunday
          <div class='container small'> 
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su8am" value="su8am"> 8am - 9am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su9am" value="su9am"> 9am - 10am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su10am" value="su10am"> 10am - 11am
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su11am" value="su11am"> 11am - 12pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su12pm" value="su12pm"> 12pm - 1pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su1pm" value="su1pm"> 1pm - 2pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su2pm" value="su2pm"> 2pm - 3pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su3pm" value="su3pm"> 3pm - 4pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su4pm" value="su4pm"> 4pm - 5pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su5pm" value="su5pm"> 5pm - 6pm
                   </label>
              </div>
-             <div class="row btn-group" data-toggle="buttons">
-                 <label class="btn-sm btn-info" data-toggle="button">
+             <div class="row btn-group">
+                 <label class="btn-sm btn-info">
                       <input type="checkbox" name="su6pm" value="su6pm"> 6pm - 7pm
                   </label>
              </div>
@@ -657,13 +673,26 @@ require 'inc/header.php';
 
       </div> <!-- close row -->
 
-    </div> <!-- end container -->
+      <input type="submit" name="submitSuccess" value="Submit!" onclick="submitAlert()">
 
-    <input type="submit" value="Submit">
+      <!-- Alternative button code: manually made
+       <label class="timeSlots">
+        <input type="checkbox" name="su2pm" value="su2pm"> 2pm - 3pm
+      </label>-->
+
+    </div> <!-- end container -->
     
    </form> 
 
   </section> <!-- end content -->
+
+  <!-- Extra padding <div style="padding-bottom:15%;"></div> -->
+
+  <script type="text/javascript">
+    function submitAlert() {
+      alert("Your information has been successfully submitted!");
+    }
+  </script>
 
 <?php require 'inc/footer.php'; ?>
 
