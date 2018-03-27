@@ -47,6 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
    }
 
+   if (empty($_POST["remember"])) {
+	 $rememberErr = "remember should be provided";
+   } else {
+         $remember = test_input($_POST["remember"]);
+	 if (!filter_var($remember, FILTER_SANITIZE_STRING)) {;
+		 $rememberErr = "try again with valid input";
+	 }
+   }
 }
 
 
