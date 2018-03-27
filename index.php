@@ -11,8 +11,8 @@ $pagetitle = "Welcome";
 require 'inc/header.php'; 
 ?>
 
-<div data-spy="scroll" data-offset="0">   
-   <section id="main">
+<section class="with-overflow">   
+   <section class="main with-background h-100 container-fluid">
    <div class="jumbotron"><br><br><br><br>
     <h1 class="display-3">Welcome</h1><br><br><br>
     <p class="lead">TutorHub is a simple tutor finding service. Want some help in a class you're taking now? See if anyone is available:</p>
@@ -87,7 +87,7 @@ require 'inc/header.php';
      </div>
     </form>
    </section>
-</div>
+</section>
 <?php require 'inc/footer.php'; ?>
 
 
