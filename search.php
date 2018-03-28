@@ -1,29 +1,47 @@
 <?php
 /*
- * Group:    SCAD (Sami, Camille, Angelo, and Dan)
- * Purpose:  To serve the search results from the Tutorhub databas
- * Created:  2018-03-09 By Dan
- * Modified: 2018-03-14 Angelo - Incorporated tutoring request code
- * Modified: 2018-03-15 Dan - Fetching results from database
+ * Group:     SCAD (Sami, Camille, Angelo, and Dan)
+ * Purpose:   To serve the search results from the Tutorhub database
+ * Created:   2018-03-09 By Dan
+ * Modified:  2018-03-14 Angelo - Incorporated tutoring request code
+ * Modified:  2018-03-15 Dan - Fetching results from database
+ * Modified:  2018-03-27 Dan - Dynamically setting times in modal by account
+ * Modified:  2018-03-28 Dan - Dynamically setting times in modal by account
+ * Sources:   - http://php.net/manual/en/function.strtotime.php
+ *            - http://php.net/manual/en/pdostatement.bindparam.php
+ *            - http://php.net/manual/en/function.gettype.php
+ *            - https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
  */
+
 $pagetitle = "Search";
 require_once 'inc/header.php';
-
-require_once("inc/dbinfo.inc");
+$err = "";
+require_once('inc/statements.php');
 
 try{
-   $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
    // get the number of results requested (default: 8)
    $resultsPerPage = isset($_GET['resultsPerPage']) ? $_GET['resultsPerPage'] : 8;
    // the current page requested (default: 0)
    $pageNum = isset($_GET['page']) ? $_GET['page'] : 0;
-   // number of search results returned
-   $totalResults = ($dbh->query('select count(*) from profiles'))->fetchColumn();
-   // get the number of results actually displayed on page
+   // ensure pageNum is a non-negative number
+   $pageNum = $pageNum >= 0 ? $pageNum : -$pageNum;
+   // number of results of user's search
+   $totalResults = getTotalResults(); // TODO use query
+   // number of results we will actually see on this page
    $resultsOnPage = min($resultsPerPage, $totalResults);
 
+   // validate user request
+   $err = null;
+
+   // TODO remove
+   // echo "<h2>I received</h2>";
+   // echo "<pre>";
+   // print_r($_POST);
+   // echo "</pre>";
 ?>
+
 <section class="container-fluid main h-100">
+
    <div class="row">
       <div class="col-12">
          <h1 class="mt-3"> Search Results </h1>
@@ -31,28 +49,33 @@ try{
       </div>
    </div>
    <div class="row">
+
 <?php
 
-   // get profiles
-   $results = $dbh->query(
-      'select id, firstname, lastname, phone, avatar from profiles where type = "tutor" limit '.$pageNum*$resultsPerPage.','.$resultsPerPage
-   );
-   foreach($results as $row):
+   // get profiles with relevant information from the database
+   $startPos = $pageNum*$resultsPerPage;
+   $profiles = getProfiles($startPos,$resultsOnPage);
+   putTimesInProfiles($profiles);
 
+   // TODO remove
+   // echo "I RECEIVED: ";
+   // print_r($profiles);
+
+   foreach($profiles as $profile):
 ?>
       <div class="col-sm-6 col-lg-3">
          <div class="card" style="width: 18rem;">
-         <img class="card-img-top" src="img/profile/<?=$row["avatar"]?>" alt="<?=$row["firstname"].' '.$row["lastname"].'\'s profile picture'?>">
+         <img class="card-img-top" src="img/profile/<?=$profile["avatar"]?>" alt="<?=$profile['firstname'].' '.$profile['lastname'].'\'s profile picture'?>">
             <div class="card-body">
-            <h5 class="card-title"><?=$row["firstname"].' '.$row["lastname"]?></h5>
+            <h5 class="card-title"><?=$profile['firstname'].' '.$profile['lastname']?></h5>
                <row>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">
+               <button type="button" class="btn btn-primary schedButton" data-userid="<?=$profile['id']?>" data-toggle="modal" data-target="#scheduleModal">
                      Check Schedule
                   </button>
                </row>
                <row>
 
-                  <button type="button" class="btn btn-primary mt-1" onclick="generateRequest(<?="'{$row["id"]}','{$row["firstname"]} {$row["lastname"]}','img/profile/{$row["avatar"]}','MATH 100')"?>">
+                  <button type="button" class="btn btn-primary mt-1 " onclick="generateRequest(<?="'{$row["id"]}','{$row["firstname"]} {$row["lastname"]}','img/profile/{$row["avatar"]}','MATH 100')"?>">
                      Request Tutoring
                   </button>
                </row>
@@ -102,7 +125,7 @@ try{
    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="scheduleModalLabel">Neptunny's Availabilities</h5>
+            <h5 class="modal-title" id="scheduleModalLabel">Availabilities</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
             </button>
@@ -118,31 +141,66 @@ try{
 </div>
 
 <script>
-   // put schedule information in the modal only once bootstrap constructs it
-   // (which is after the user clicks to request it)
-   $('#scheduleModal').on('shown.bs.modal',function(e){
-      $(function () {
-         $("#schedule").jqs({
+   $(document).ready(function(){
+      // will hold the function needed to draw the schedules on the modal
+      var scheduleModalDrawerFunc = function(){};
+
+      // create an object to hold schedules for each user, using user id as key
+      var scheduleModalDrawerFuncs = {
+<?php
+   foreach($profiles as $profile):
+?>
+         '<?=$profile['id']?>': function () {
+            // change the title of the modal
+            $('.modal-title').text("Availabilities for <?=$profile['firstname'] . " " . $profile['lastname']?>");
+            // set the schedule of the modal
+            $('#schedule').jqs({
             mode: "read",
-            days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
-            hour: 12,
-            data: [{
-               day: 0,
-               periods: [
-                  ["00:00", "02:00"],
-                  ["03:00", "06:00"],
-                  ["06:00", "07:00"],
-                  ["08:00", "09:00"],
-                  ["8pm","12am"],
+               // shortens the name displayed on the week list (e.g. Mo instead of Monday)
+               days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
+               hour: 24,
+               data: [
+
+<?php
+      // put the availabilities in the JSON on the page
+      foreach($profile['times'] as $day => $availabilities){
+         echo "{\n";
+         echo "   day: $day,\n";
+         echo "   periods: [\n";
+         foreach($availabilities as $availability){
+            echo "[\"".$availability['starttime']."\", \"".$availability['endtime']."\"],\n";
+         }
+         echo "   ]\n";
+         echo "},\n";
+      }
+?>
+
                ]
-            }, {
-               day: 3,
-               periods: [
-                  ["00:00", "08:30"],
-                  ["09:00", "12pm"],
-               ]
-            }]
-         });
+            });
+         },
+<?php
+   endforeach;
+?>
+      };
+
+      // once the user clicks on a button we want to specify which schedule to draw
+      $('button[data-userid]').on('click',function(){
+         console.log("you wanted " + this.dataset.userid);
+         console.log(scheduleModalDrawerFuncs[this.dataset.userid]);
+         // TODO ensure userid is a valid number
+         scheduleModalDrawerFunc = scheduleModalDrawerFuncs[this.dataset.userid];
+      });
+
+      // draw the schedule once the user requests it
+      $('#scheduleModal').on('shown.bs.modal',function(){
+         console.log('I am shown');
+         $(scheduleModalDrawerFunc);
+      });
+
+      // take the schedule away after the user leaves modal (to force it to draw a different schedule)
+      $('#scheduleModal').on('hidden.bs.modal',function(){
+         console.log('I am hidden');
+         $('#schedule').html('');
       });
    });
 </script>
@@ -210,7 +268,7 @@ try{
 
 <?php
 }catch(PDOException $e){
-   echo "Error: " . $e->getMessage() . "<br />";
+      $err .= "<p style=\"color:red\">Error in pulling information from database, please contact your web administrator.</p>";
 }
 
 require_once 'inc/footer.php';
