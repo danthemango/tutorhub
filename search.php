@@ -153,8 +153,9 @@ try{
          '<?=$profile['id']?>': function () {
             // change the title of the modal
             $('.modal-title').text("Availabilities for <?=$profile['firstname'] . " " . $profile['lastname']?>");
-            // set the schedule of the modal
-            $('#schedule').jqs({
+            // set the schedule of the modal in a child
+            $('#schedule').append('<div id=\'scheduleChild\'></div>');
+            $('#scheduleChild').jqs({
             mode: "read",
                // shortens the name displayed on the week list (e.g. Mo instead of Monday)
                days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
@@ -185,7 +186,7 @@ try{
 
       // once the user clicks on a button we want to specify which schedule to draw
       $('button[data-userid]').on('click',function(){
-         console.log("you wanted " + this.dataset.userid);
+         console.log("you wanted the schedule of " + this.dataset.userid);
          console.log(scheduleModalDrawerFuncs[this.dataset.userid]);
          // TODO ensure userid is a valid number
          scheduleModalDrawerFunc = scheduleModalDrawerFuncs[this.dataset.userid];
@@ -197,7 +198,8 @@ try{
          $(scheduleModalDrawerFunc);
       });
 
-      // take the schedule away after the user leaves modal (to force it to draw a different schedule)
+      // take the scheduleChild away after the user leaves modal (to force it to draw a different
+      //    next time)
       $('#scheduleModal').on('hidden.bs.modal',function(){
          console.log('I am hidden');
          $('#schedule').html('');
