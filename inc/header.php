@@ -1,6 +1,15 @@
 <!-- start header.php -->
 <!DOCTYPE html>
 <?php
+  session_start();
+
+  $session = false;
+  if (isset($_SESSION['UserData']['Username'])) {
+    $session_user = $_SESSION['UserData']['Username'];
+    $session_avatar = $_SESSION['UserData']['Avatar'];
+    $session = true;
+  }
+
    // grab the page name if available
    $sitetitle = "TutorHub";
    if(isset($pagetitle)){
@@ -34,8 +43,26 @@
 
            <div class="collapse navbar-collapse" id="navbarColor01">
              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-               <li><a class="nav-link" href="signup.php"><span class="glyphicon glyphicon-user"></span> Become a Tutor</a></li>
-               <li><a class="nav-link" href="login.php"><span class="glyphicon glyphicon-log-in"></span> Tutor Sign In</a></li>
+
+<?php
+
+if ($session) {
+  echo "
+    <li>
+        <a href='#''>
+            <img src='img/profile/" . $session_avatar . "' class='avatar img-responsive'>
+            <span class='header-username'>" . $session_user . "</span>
+        </a>
+    </li>
+  ";
+  echo "<li><a class='nav-link' href='logout.php'>Logout</a></li>";
+} else {
+  echo "<li><a class='nav-link' href='signup.php'><span class='glyphicon glyphicon-user'></span> Become a Tutor</a></li>";
+  echo "<li><a class='nav-link' href='login.php'><span class='glyphicon glyphicon-log-in'></span> Tutor Sign In</a></li>";
+}
+
+?>
+  
              </ul>
            </div>
          </nav>

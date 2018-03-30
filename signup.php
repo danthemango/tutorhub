@@ -63,6 +63,10 @@
 $pagetitle = "Welcome";
 require 'inc/header.php'; 
 
+if ($session) {
+   header("location:index.php");
+}
+
 ?>
 
    <section class="main h-100 container-fluid width-overflow width-background">

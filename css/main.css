@@ -32,3 +32,9 @@ footer {
   border: 1px solid rgb(200,200,200);
   background: white;
 }
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+}
