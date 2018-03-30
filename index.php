@@ -11,6 +11,7 @@ $pagetitle = "Welcome";
 require 'inc/header.php'; 
 ?>
 
+<br><br>
 <section class="with-overflow">   
    <section class="main with-background h-100 container-fluid">
    <div class="jumbotron"><br><br><br><br>
@@ -87,6 +88,7 @@ require 'inc/header.php';
      </div>
     </form>
    </section>
+   <br><br><br><br>
 </section>
 <?php require 'inc/footer.php'; ?>
 
