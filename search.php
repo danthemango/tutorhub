@@ -76,7 +76,7 @@ try{
                </row>
                <row>
 
-                  <button type="button" class="btn btn-primary mt-1 " onclick="generateRequest(<?="'{$row["id"]}','{$row["firstname"]} {$row["lastname"]}','img/profile/{$row["avatar"]}','MATH 100')"?>">
+                  <button type="button" class="btn btn-primary mt-1 " onclick="generateRequest(<?="'{$profile["id"]}','{$profile["firstname"]} {$profile["lastname"]}','img/profile/{$profile["avatar"]}','{$profile["courses"]}')"?>">
                      Request Tutoring
                   </button>
                </row>

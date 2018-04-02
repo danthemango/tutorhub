@@ -230,7 +230,7 @@ function getTimesFromIDasJSON($id){
 function getProfiles($startPos = 0, $numResults = 10){
    global $dbh;
    $results = array();
-   $sql = 'select id, firstname, lastname, phone, avatar from profiles where ptype = "tutor" limit :startPos , :numResults';
+   $sql = 'select profiles.id, profiles.firstname, profiles.lastname, profiles.phone, profiles.avatar, (select group_concat(skills.class) from skills where skills.id = profiles.id) as courses from profiles where ptype = "tutor" limit :startPos , :numResults';
    $stmt = $dbh->prepare($sql);
    // http://php.net/manual/en/pdostatement.bindparam.php
    if(!$stmt->execute([':startPos' => $startPos, ':numResults' => $numResults])){
