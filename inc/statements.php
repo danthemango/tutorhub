@@ -5,12 +5,14 @@
  * Created:  2018-03-25 By Dan
  * Modified: 2018-03-26 By Dan: adding more functions for search.php
  * Modified: 2018-03-28 By Dan: completed putTimesInProfiles
+ * Modified: 2018-04-01 By Dan: added JSON function for times
  */
 
 require_once("inc/dbinfo.inc");
 try{
    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
    $getTimesFromIDStatement = $dbh->prepare('select id, daynum, starttime, endtime from times where id = :id');
+   $getSkillsFromIDStatement = $dbh->prepare('select class from times where id = :id');
 }catch(PDOException $e){
       echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
       // for debugging: echo "error from database: " . $e->getMessage() . "<br />\n";
@@ -40,14 +42,20 @@ function isValidID($id){
    return true;
 }
 
-// returns true if passed a valid timeString as argument
-// note: only accepts strings in the format "00:00:00" in 24h format
+// returns true if timeString given is a valid timestamp
+// useful for the MySQL timestamp format
+// from '0:0:0' to '23:59:59'
 function isValidTimeString($timeString){
    if(!is_string($timeString)){
       return false;
    }
-   // TODO reject strings of an incorrect format (sami?)
-   return true;
+   $parts = explode(':',$timeString);
+
+   return count($parts) == 3
+      && is_numeric($parts[0]) && is_numeric($parts[1]) && is_numeric($parts[2])
+      && $parts[0] >= 0 && $parts[0] < 24
+      && $parts[1] >= 0 && $parts[1] < 60
+      && $parts[2] >= 0 && $parts[2] < 60;
 }
 
 // returns true if value given is a valid weekday number (or numeric string)
@@ -147,48 +155,6 @@ function getIDsFromProfiles($profiles){
       }
    }
    return $IDs;
-}
-
-// takes a list of profiles and sets the times when these users are available
-//
-//    time availability information is put in the profile with format:
-//    $profiles[$id]['times'][$daynum][$availabilityIndex]['starttime'] for the start time
-//    $profiles[$id]['times'][$daynum][$availabilityIndex]['starttime'] for the end time
-//
-//    $daynum is an integer corresponding to a day of the week, starting at 0 for Monday
-//    up to 6 for Sunday
-//
-//    $availabilityIndex is an integer corresponding to the availability's placement in the
-//    array for that day (there's no upper bound, people can declare themselves available for
-//    up to 86400 second-long availability increments in a single day theoretically)
-//    (the index numbers don't mean anything, they are there for good luck)
-//
-// (e.g. if the user with id 12 is available from 2:00 PM to 3:00 PM on thursdays then
-//    $profiles[12]['times'][3][]['starttime'] = '14:00:00'
-//    and
-//    $profiles[12]['times'][3][]['endtime'] = '15:00:00'
-// )
-function putTimesInProfiles(&$profiles){
-   global $dbh;
-
-   // get availability times from those profiles
-   $profileTimes = getTimesFromProfiles($profiles);
-
-   // initialize the 'times' array in each profiles
-   foreach($profiles as &$profile){
-      $profile['times'] = [];
-   }
-
-   // put times into profiles
-   foreach($profileTimes as $times){
-      foreach($times as $time){
-         if(isValidTimeArr($time)){
-            $profiles[$time['id']]['times'][$time['daynum']][] =
-               ['starttime' => $time['starttime'], 'endtime' => $time['endtime']];
-         }
-      }
-      return $profiles;
-   }
 }
 
 // returns a JSON string of all times available to a user specified by ID
