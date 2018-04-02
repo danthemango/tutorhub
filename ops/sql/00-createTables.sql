@@ -9,7 +9,9 @@
    to add a column to the table:
    ALTER TABLE profiles ADD COLUMN pay DECIMAL(13,2) NOT NULL DEFAULT 20.00;
    to increase the security of password hashes:
-   ALTER TABLE profiles MODIFY password VARCHAR(256); 
+   ALTER TABLE profiles MODIFY password VARCHAR(256);
+   to rename a column (type to ptype)
+   ALTER TABLE profiles CHANGE type ptype VARCHAR(20) NOT NULL DEFAULT "tutor";
    to change a value in the table:
    UPDATE profiles SET pay = 18 WHERE id = 3;
 */
