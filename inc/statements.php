@@ -11,7 +11,6 @@ require_once("inc/dbinfo.inc");
 try{
    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
    $getTimesFromIDStatement = $dbh->prepare('select id, daynum, starttime, endtime from times where id = :id');
-   // TODO write some queries here
 }catch(PDOException $e){
       echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
       // for debugging: echo "error from database: " . $e->getMessage() . "<br />\n";
@@ -33,7 +32,12 @@ function escapeAll($results){
 
 // returns true if number is a valid ID
 function isValidID($id){
-   return is_numeric($id); // TODO implement
+   if(!is_numeric($id)){
+      return false;
+   }
+
+   // XXX maybe check if it's in the database too
+   return true;
 }
 
 // returns true if passed a valid timeString as argument
@@ -177,8 +181,6 @@ function putTimesInProfiles(&$profiles){
 
    // put times into profiles
    foreach($profileTimes as $times){
-      echo "TIMES IS\n";
-      print_r($times);
       foreach($times as $time){
          if(isValidTimeArr($time)){
             $profiles[$time['id']]['times'][$time['daynum']][] =
