@@ -4,9 +4,9 @@
  * Purpose:   To serve the search results from the Tutorhub database
  * Created:   2018-03-09 By Dan
  * Modified:  2018-03-14 Angelo - Incorporated tutoring request code
- * Modified:  2018-03-15 Dan - Fetching results from database
- * Modified:  2018-03-27 Dan - Dynamically setting times in modal by account
- * Modified:  2018-03-28 Dan - Dynamically setting times in modal by account
+ *            2018-03-15 Dan - Fetching results from database
+ *            2018-03-27 Dan - Dynamically setting times in modal by account
+ *            2018-03-28 Dan - Dynamically setting times in modal by account
  * Sources:   - http://php.net/manual/en/function.strtotime.php
  *            - http://php.net/manual/en/pdostatement.bindparam.php
  *            - http://php.net/manual/en/function.gettype.php
@@ -55,13 +55,14 @@ try{
    // get profiles with relevant information from the database
    $startPos = $pageNum*$resultsPerPage;
    $profiles = getProfiles($startPos,$resultsOnPage);
-   putTimesInProfiles($profiles);
 
    // TODO remove
-   // echo "I RECEIVED: ";
-   // print_r($profiles);
+   //echo "The profiles ";
+   //print_r($profiles);
 
    foreach($profiles as $profile):
+      # get the JSON string of availabilities for this person
+      $timesJSONString = getTimesFromIDasJSON($profile['id']);
 ?>
       <div class="col-sm-6 col-lg-3">
          <div class="card" style="width: 18rem;">
@@ -69,7 +70,7 @@ try{
             <div class="card-body">
             <h5 class="card-title"><?=$profile['firstname'].' '.$profile['lastname']?></h5>
                <row>
-               <button type="button" class="btn btn-primary schedButton" data-userid="<?=$profile['id']?>" data-toggle="modal" data-target="#scheduleModal">
+               <button type="button" class="btn btn-primary schedButton" data-userid="<?=$profile['id']?>" data-schedule='<?=$timesJSONString?>' data-toggle="modal" data-target="#scheduleModal">
                      Check Schedule
                   </button>
                </row>
@@ -131,7 +132,6 @@ try{
             </button>
          </div>
          <div class="modal-body">
-            <div id="schedule"></div>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -139,73 +139,6 @@ try{
       </div>
    </div>
 </div>
-
-<script>
-   $(document).ready(function(){
-      // will hold the function needed to draw the schedules on the modal
-      var scheduleModalDrawerFunc = function(){};
-
-      // create an object to hold schedules for each user, using user id as key
-      var scheduleModalDrawerFuncs = {
-<?php
-   foreach($profiles as $profile):
-?>
-         '<?=$profile['id']?>': function () {
-            // change the title of the modal
-            $('.modal-title').text("Availabilities for <?=$profile['firstname'] . " " . $profile['lastname']?>");
-            // set the schedule of the modal in a child
-            $('#schedule').append('<div id=\'scheduleChild\'></div>');
-            $('#scheduleChild').jqs({
-            mode: "read",
-               // shortens the name displayed on the week list (e.g. Mo instead of Monday)
-               days: ["Mo","Tu","We","Th","Fr","Sa","Su"],
-               hour: 24,
-               data: [
-
-<?php
-      // put the availabilities in the JSON on the page
-      foreach($profile['times'] as $day => $availabilities){
-         echo "{\n";
-         echo "   day: $day,\n";
-         echo "   periods: [\n";
-         foreach($availabilities as $availability){
-            echo "[\"".$availability['starttime']."\", \"".$availability['endtime']."\"],\n";
-         }
-         echo "   ]\n";
-         echo "},\n";
-      }
-?>
-
-               ]
-            });
-         },
-<?php
-   endforeach;
-?>
-      };
-
-      // once the user clicks on a button we want to specify which schedule to draw
-      $('button[data-userid]').on('click',function(){
-         console.log("you wanted the schedule of " + this.dataset.userid);
-         console.log(scheduleModalDrawerFuncs[this.dataset.userid]);
-         // TODO ensure userid is a valid number
-         scheduleModalDrawerFunc = scheduleModalDrawerFuncs[this.dataset.userid];
-      });
-
-      // draw the schedule once the user requests it
-      $('#scheduleModal').on('shown.bs.modal',function(){
-         console.log('I am shown');
-         $(scheduleModalDrawerFunc);
-      });
-
-      // take the scheduleChild away after the user leaves modal (to force it to draw a different
-      //    next time)
-      $('#scheduleModal').on('hidden.bs.modal',function(){
-         console.log('I am hidden');
-         $('#schedule').html('');
-      });
-   });
-</script>
 
 <!-- Request Tutoring Modal -->
 <div id="request-modal" class="modal fade">
@@ -267,10 +200,11 @@ try{
 </div>
 
 <script src="js/request_tutoring.js"></script>
+<script src="js/search.js"></script>
 
 <?php
 }catch(PDOException $e){
-      $err .= "<p style=\"color:red\">Error in pulling information from database, please contact your web administrator.</p>";
+   $err .= "<p style=\"color:red\">Error in pulling information from database, please contact your web administrator.</p>";
 }
 
 require_once 'inc/footer.php';

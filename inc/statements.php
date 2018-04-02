@@ -10,6 +10,7 @@
 require_once("inc/dbinfo.inc");
 try{
    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
+   $getTimesFromIDStatement = $dbh->prepare('select id, daynum, starttime, endtime from times where id = :id');
    // TODO write some queries here
 }catch(PDOException $e){
       echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
@@ -101,36 +102,28 @@ function getAllTimes(){
    return escapeAll($stmt->fetchAll());
 }
 
+// returns all times a user is available, given by an ID
+function getTimesFromID($id){
+   global $getTimesFromIDStatement;
+
+   // ensure prepared statement is valid;
+   if(!$getTimesFromIDStatement){
+      // TODO log error message
+      return [];
+   }
+
+   $getTimesFromIDStatement->execute([":id"=>$id]);
+   return $getTimesFromIDStatement->fetchAll();
+}
+
 // returns all times from the database from a given array of IDs
 function getTimesFromIDs($IDs){
    global $dbh;
 
-   // prepare an sql statement with the proper number of IDs needed
-   // (e.g. select id, daynum, starttime, endtime from times where id in (:id0, :id1, :id2); )
-   $sql = 'select id, daynum, starttime, endtime from times where id in (';
+   $times = [];
    for($i = 0; $i < count($IDs); $i++){
-      if($i != 0){
-         $sql .= ',';
-      }
-      $sql .= ":id$i";
+      $times[$i] = getTimesFromID($IDs[$i]);
    }
-   $sql .= ');';
-   $stmt = $dbh->prepare($sql);
-
-   // ensure prepared statement is valid;
-   if(!$stmt){
-      // TODO error message
-      return [];
-   }
-
-   // bind the ids to the prepared statement
-   for($i = 0; $i < count($IDs); $i++){
-      $stmt->bindParam(":id$i", $IDs[$i]);
-   }
-
-   $stmt->execute();
-   $times = $stmt->fetchAll();
-
    return $times;
 }
 
@@ -175,7 +168,7 @@ function putTimesInProfiles(&$profiles){
    global $dbh;
 
    // get availability times from those profiles
-   $times = getTimesFromProfiles($profiles);
+   $profileTimes = getTimesFromProfiles($profiles);
 
    // initialize the 'times' array in each profiles
    foreach($profiles as &$profile){
@@ -183,13 +176,53 @@ function putTimesInProfiles(&$profiles){
    }
 
    // put times into profiles
+   foreach($profileTimes as $times){
+      echo "TIMES IS\n";
+      print_r($times);
+      foreach($times as $time){
+         if(isValidTimeArr($time)){
+            $profiles[$time['id']]['times'][$time['daynum']][] =
+               ['starttime' => $time['starttime'], 'endtime' => $time['endtime']];
+         }
+      }
+      return $profiles;
+   }
+}
+
+// returns a JSON string of all times available to a user specified by ID
+// check out https://github.com/Yehzuna/jquery-schedule for more information
+// data format:
+// [
+//     {
+//         "day": "Day number",
+//         "periods": [
+//             {
+//                 "start": "Period start time",
+//                 "end": "Period end time",
+//                 "title": "Period title",
+//                 "backgroundColor": "Period background color",
+//                 "borderColor":"Period border color",
+//                 "textColor": "Period text color"
+//             }
+//         ]
+//     }
+// ]
+function getTimesFromIDasJSON($id){
+   $times = getTimesFromID($id);
+   # create a new array to hold times ordered by day
+   $days = [];
    foreach($times as $time){
       if(isValidTimeArr($time)){
-         $profiles[$time['id']]['times'][$time['daynum']][] =
-            ['starttime' => $time['starttime'], 'endtime' => $time['endtime']];
+         $days[$time['daynum']][] = [$time['starttime'],$time['endtime']];
       }
    }
-   return $profiles;
+   # and create another to store them in the correct format
+   $result = [];
+   foreach($days as $day => $periods){
+      $result[] = ['day' => $day, 'periods' => $periods];
+   }
+   # and return these
+   return json_encode($result);
 }
 
 // returns profiles given the search parameters
