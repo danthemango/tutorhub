@@ -1,7 +1,9 @@
+<?php
+  session_start();
+?>
 <!-- start header.php -->
 <!DOCTYPE html>
 <?php
-  session_start();
 
   $session = false;
   if (isset($_SESSION['UserData']['Username'])) {
