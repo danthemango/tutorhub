@@ -1,16 +1,18 @@
 <?php
 /*
- * Group:    SCAD (Sami, Camille, Angelo, and Dan)
- * Purpose:  To prepare a set of statements for access to the database
- * Created:  2018-03-25 By Dan
- * Modified: 2018-03-26 By Dan: adding more functions for search.php
- * Modified: 2018-03-28 By Dan: completed putTimesInProfiles
- * Modified: 2018-04-01 By Dan: added JSON function for times
+ * Group:      SCAD (Sami, Camille, Angelo, and Dan)
+ * Purpose:    To prepare a set of statements for access to the database
+ * Created:    2018-03-25 By Dan
+ * Modified:   2018-03-26 By Dan: adding more functions for search.php
+ *             2018-03-28 By Dan: completed putTimesInProfiles
+ *             2018-04-01 By Dan: added JSON function for times
+ * Sources:    - http://php.net/manual/en/pdostatement.bindparam.php
  */
 
 require_once("inc/dbinfo.inc");
 try{
    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
+   $getNumProfilesStatement = $dbh->prepare('select count(*) from profiles');
    $getTimesFromIDStatement = $dbh->prepare('select id, daynum, starttime, endtime from times where id = :id');
    $getSkillsFromIDStatement = $dbh->prepare('select class from times where id = :id');
 }catch(PDOException $e){
@@ -30,6 +32,31 @@ function escapeAll($results){
       $i++;
    }
    return $retval;
+}
+
+// returns true if class code is valid
+function isValidClassCode($code){
+   // TODO should use a has_presence function here instead
+   // TODO consider grabbing class-codes from the 'skills' table in the database
+   return is_string($code) && strlen($code) > 0 && strlen($code) <= 10 && ctype_alnum($code);
+}
+
+// returns an error statement if the post information is invalid
+// note: submission must be set, and there has to exist at least one
+//       course and at least one time to search (to ensure the user
+//       knows why there are no results
+function isValidSearchPost($getty){
+   if(!isset($getty['submit']) || $getty['submit'] != "Submit"){
+      return "<p>No search made</p>";
+   }
+   if(!isset($getty['courses']) || !is_array($getty['courses'])
+      || !isset($getty['times']) || !is_array($getty['times'])){
+      return "<p>Invalid search fields</p>";
+   }
+   if(count($getty['courses']) <= 0 || count($getty['times']) <= 0){
+      return "<p>Nothing to search</p>";
+   }
+   return "";
 }
 
 // returns true if number is a valid ID
@@ -53,7 +80,7 @@ function isValidTimeString($timeString){
 
    return count($parts) == 3
       && is_numeric($parts[0]) && is_numeric($parts[1]) && is_numeric($parts[2])
-      && $parts[0] >= 0 && $parts[0] < 24
+      && $parts[0] >= 0 && $parts[0] <= 24
       && $parts[1] >= 0 && $parts[1] < 60
       && $parts[2] >= 0 && $parts[2] < 60;
 }
@@ -65,7 +92,7 @@ function isValidWeekdayNum($wk){
 }
 
 // returns true if this is a valid time array
-// and, due to the PDO fetching is the PHP equivalent of the SQL tables we created, it has the format:
+// and, from the SQL table structure it has the structure:
 //    time['id']        - id of the user who added this time
 //    time['daynum']    - number corresponding to the weekday for this element
 //    time['starttime'] - availability starting time
@@ -97,11 +124,60 @@ try{
 // search.php //
 ////////////////
 
-// returns the total number of results to display on the search page
+// returns the total number of profiles in the database
+// XXX remove? not used anywhere
+function getNumProfiles(){
+   global $getNumProfilesStatement;
+   if(!$getNumProfilesStatement){
+      return false;
+   }
+   $getNumProfilesStatement->execute();
+   return $getNumProfilesStatement->fetchColumn();
+}
+
+// returns the number of profiles which match the search query
 // TODO fetch only relevant results
-function getTotalResults(){
+function getNumResults($form_day,$form_times,$form_courses){
    global $dbh;
-   return ($dbh->query('select count(*) from profiles'))->fetchColumn();
+
+   // an array to hold all of the conditions we will use in our search
+   $conditionSqlArr = [];
+
+   // filter by profile type (tutors only)
+   $conditionSqlArr[] = 'ptype = "tutor"';
+
+   // filter by schedule times, unless the user said they were fine any time and day
+   if(!$form_day){
+      $conditionSqlArr[] = getTimesSqlBindings($form_times);
+   }
+
+   // filter by classes
+   $conditionSqlArr[] = getCoursesSqlBindings($form_courses);
+
+   // construct the sql parts
+   $sql = 'select count(*) from profiles where ';
+   $sql .= implode(' and ',$conditionSqlArr);
+
+   $stmt = $dbh->prepare($sql);
+   if(!$stmt){
+      // TODO log error
+      return 0;
+   }
+
+   //////////////
+   // bindings //
+   //////////////
+
+   // bind the schedule pieces
+   if(!$form_day){
+      doTimesSqlBindings($stmt,$form_times);
+   }
+
+   // bind the form courses in the statement
+   doCoursesSqlBindings($stmt,$courseTags,$form_courses);
+
+   $stmt->execute();
+   return $stmt->fetchColumn();
 }
 
 // returns all times from the database
@@ -159,7 +235,7 @@ function getIDsFromProfiles($profiles){
 
 // returns a JSON string of all times available to a user specified by ID
 // check out https://github.com/Yehzuna/jquery-schedule for more information
-// data format:
+// data format: (an array of 'days' with each day as a number and array of periods)
 // [
 //     {
 //         "day": "Day number",
@@ -174,7 +250,7 @@ function getIDsFromProfiles($profiles){
 //             }
 //         ]
 //     }
-// ]
+// ],
 function getTimesFromIDasJSON($id){
    $times = getTimesFromID($id);
    # create a new array to hold times ordered by day
@@ -193,16 +269,146 @@ function getTimesFromIDasJSON($id){
    return json_encode($result);
 }
 
+// returns the JSON of the times array when taken from the POST variable
+function getTimesFromPOSTasJSON($getty){
+   $form_times = [];
+   if(!isset($getty['times']) || !is_array($getty['times'])){
+      return "";
+   }
+   foreach($getty['times'] as $day => $periods){
+      if(!isValidWeekdayNum($day)){
+         return "";
+      }else{
+         if(!is_array($periods)){
+            return "";
+         }
+         foreach($periods as $period){
+            $periodObj = json_decode($period);
+            if(is_null($periodObj)){
+               return "";
+            }else if(!isValidTimeString($periodObj->start)){
+               return "";
+            }else if(!isValidTimeString($periodObj->end)){
+               return "";
+            }else{
+               $newval = [];
+               $newVal['day'] = $day;
+               $period = [];
+               $period['start'] = $periodObj->start;
+               $period['end'] = $periodObj->end;
+               $period['title'] = 'you';
+               $period['textColor'] = '#a8a8a8';
+               $period['backgroundColor'] = '#ffffff';
+               $period['borderColor'] = 'black';
+               $newVal['periods'] = [$period];
+               $form_times[] = $newVal;
+            }
+         }
+      }
+   }
+   $result = json_encode($form_times);
+   if(is_null($result)){
+      return false;
+   }else{
+      return $result;
+   }
+}
+
+// returns the extra sql bindings necessary for the day periods
+function getTimesSqlBindings(&$form_times){
+   $i = 0;
+   $periodSqlArr = [];
+   foreach($form_times as $day => $periods){
+      foreach($periods as $period){
+         $day_sql = '';
+         $day_sql .= "(times.daynum = :day" . $i++ . " and ";
+         $day_sql .= "(starttime <= :form_starttime".$i++. " and endtime >= :form_starttime".$i++.") or ";
+         $day_sql .= "(starttime <= :form_endtime".$i++. " and endtime >= :form_endtime" . $i++ . ") or ";
+         $day_sql .= "(starttime > :form_starttime".$i++. " and endtime < :form_endtime".$i++."))";
+         $periodsSqlArr[] = $day_sql;
+      }
+   }
+   return 'profiles.id in (select id from times where' . implode(' or ',$periodsSqlArr) . ")";
+}
+
+// binds the values from from form_times into a prepared statement
+function doTimesSqlBindings(&$stmt,&$form_times){
+   $i = 0;
+   foreach($form_times as $day => $periods){
+      foreach($periods as $period){
+         $stmt->bindParam(":day".$i++, $day);
+         $stmt->bindParam(":form_starttime".$i++, $period[0]);
+         $stmt->bindParam(":form_starttime".$i++, $period[0]);
+         $stmt->bindParam(":form_endtime".$i++, $period[1]);
+         $stmt->bindParam(":form_endtime".$i++, $period[1]);
+         $stmt->bindParam(":form_starttime".$i++, $period[0]);
+         $stmt->bindParam(":form_endtime".$i++, $period[1]);
+      }
+   }
+}
+
+// returns the extra sql bindings necessary for the courses specified
+function getCoursesSqlBindings(&$form_courses){
+   $i = 0;
+   foreach($form_courses as $course){
+      $courseTags[] = ':course'.$i++;
+   }
+   return 'profiles.id in (select id from skills where class in ('.implode(' , ',$courseTags).'))';
+}
+
+function doCoursesSqlBindings(&$stmt,&$courseTags,&$form_courses){
+   $i = 0;
+   foreach($form_courses as $course){
+      $stmt->bindParam(':course'.$i++, $course);
+   }
+}
+
 // returns profiles given the search parameters
 // TODO actually use search parameters
-function getProfiles($startPos = 0, $numResults = 10){
+function getProfiles($startPos = 0, $numResults = 10, $form_day, $form_times, $form_courses){
    global $dbh;
    $results = array();
-   $sql = 'select profiles.id, profiles.firstname, profiles.lastname, profiles.phone, profiles.avatar, (select group_concat(skills.class) from skills where skills.id = profiles.id) as courses from profiles where ptype = "tutor" limit :startPos , :numResults';
+
+   // an array to hold all of the conditions we will use in our search
+   $conditionSqlArr = [];
+
+   // filter by profile type (tutors only)
+   $conditionSqlArr[] = 'ptype = "tutor"';
+
+   // filter by schedule times, unless the user said they were fine any time and day
+   if(!$form_day){
+      $conditionSqlArr[] = getTimesSqlBindings($form_times);
+   }
+
+   // filter by classes
+   $conditionSqlArr[] = getCoursesSqlBindings($form_courses);
+
+   // construct the sql parts
+   $sql = 'select profiles.id, profiles.firstname, profiles.lastname, profiles.phone, profiles.avatar, (select group_concat(skills.class) from skills where skills.id = profiles.id) as courses from profiles ';
+   $sql .= 'where ';
+   $sql .= implode(' and ',$conditionSqlArr);
+   $sql .= ' limit :startPos, :numResults;';
+
    $stmt = $dbh->prepare($sql);
-   // http://php.net/manual/en/pdostatement.bindparam.php
-   if(!$stmt->execute([':startPos' => $startPos, ':numResults' => $numResults])){
-      $err .= "<p style=\"color:red\">Error code 421: please contact your web administrator.</p>";
+   if(!$stmt){
+      // TODO log error
+      return [];
+   }
+
+   // bind the page limits
+   $stmt->bindParam(':startPos', $startPos);
+   $stmt->bindParam(':numResults', $numResults);
+
+   // bind the schedule pieces
+   if(!$form_day){
+      doTimesSqlBindings($stmt,$form_times);
+   }
+
+   // bind the form courses in the statement
+   doCoursesSqlBindings($stmt,$courseTags,$form_courses);
+
+   if(!$stmt){
+      return [];
    }else{
       $stmt->execute();
       $results = $stmt->fetchAll();

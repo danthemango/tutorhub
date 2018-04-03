@@ -1,5 +1,5 @@
 <?php
-// remember to use htmlspecialchars in forms
+// remember to use htmlspecialchars in formsif
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    if (empty($_POST["firstname"])) {
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    } else {
        $email = test_input($_POST["email"]);
        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-	      $emailErr = "Invalid email format"; 
+	      $emailErr = "Invalid email format";
 	}
    }
 
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    } else {
 	$phone = test_input($_POST["phone"]);
 	if(preg_match("/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/", $phone)) {
-		$phoneErr = "Phone number must be in this format '000-0000-0000'"; 
+		$phoneErr = "Phone number must be in this format '000-0000-0000'";
 	}
    }
 

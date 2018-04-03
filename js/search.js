@@ -18,8 +18,8 @@ $(document).ready(function(){
 
    // draw the schedule once the modal actually shows up
    $('#scheduleModal').on('shown.bs.modal',function(){
-      if($('#schedule').length < 1){
-         $('#scheduleModal .modal-body').append('<div id=\'schedule\'></div>');
+      // put a jquery schedule in place if it doesn't already exist here
+      if(!$('#schedule').hasClass('jqs')){
          $('#schedule').jqs({
             mode: "read",
             // shortens the name displayed on the week list (e.g. Mo instead of Monday)
@@ -29,5 +29,8 @@ $(document).ready(function(){
       }
       $('#schedule').jqs('reset');
       $('#schedule').jqs('import',$(this).data('schedule'));
+      // TODO I wanted to have the user's schedule also drawn here, but
+      // jqs doesn't allow overlaps in scheduled times so we need to cut it up
+      // $('#schedule').jqs('import',$('#schedule').data('form_schedule'));
    });
 });

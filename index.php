@@ -1,3 +1,7 @@
+<?php
+$pagetitle = "Welcome";
+require 'inc/header.php';
+?>
 <!--
    Group:    SCAD (Sami, Camille, Angelo, and Dan)
    Purpose:  landing page for TutorHub
@@ -6,24 +10,9 @@
              2018-03-05 Sami: edited initial template and started developing the different sections
              2018-03-16 Sami: modified the form section
 -->
-<?php 
-$pagetitle = "Welcome";
-require 'inc/header.php'; 
-
-$monday =0;
-$tuesday =1;
-$wednesday =2;
-$thursday =3;
-$friday =4;
-$saturday =5;
-$sunday =6;
-$AM =0;
-$PM =1;
-
-?>
 
 <br><br>
-<section class="with-overflow">   
+<section class="with-overflow">
    <section class="main with-background h-100 container-fluid">
    <div class="jumbotron"><br><br><br><br>
     <h1 class="display-3">Welcome</h1><br><br><br>
@@ -32,7 +21,7 @@ $PM =1;
    </div>
    </section>
    <section id="section1"><br><br><br><br>
-    <form class="text-center" method="post" action="search.php">
+    <form class="text-center" method="get" action="search.php">
       <label for="course" ><b>Pick the course you would like to find a tutor for:</b></label><br>
       <select multiple id="courses" name="courses[]">
         <option value="csci112">CSCI 112 - (Applications Programming)</option>
@@ -59,38 +48,38 @@ $PM =1;
        <tbody>
        <tr>
 	   <th scope="row">Monday</th>
-	   <td><input id="monAM" type="checkbox" name="times[<?php $monday ?>]" value="<?php AM ?>">Morning</td>
-	   <td><input id="monPM" type="checkbox" name="times[<?php $monday ?>]" value="<?php PM ?>">Afternoon</td>
+	   <td><input id="monAM" type="checkbox" name="times[0][]" value='{"start":"00:00:00","end":"12:00:00"}'>Morning</td>
+	   <td><input id="monPM" type="checkbox" name="times[0][]" value='{"start":"12:00:00","end":"24:00:00"}'>Afternoon</td>
        </tr>
        <tr>
 	   <th scope="row">Tuesday</th>
-	   <td><input id="tueAM" type="checkbox" name="times[<?php $tuesday ?>]" value="<?php AM ?>">Morning</td>
-	   <td><input id="tuePM" type="checkbox" name="times[<?php $tuesday ?>]" value="<?php PM ?>">Afternoon</td>
+	   <td><input id="tueAM" type="checkbox" name="times[1][]" value='{"start":"00:00:00","end":"12:00:00"}'>Morning</td>
+	   <td><input id="tuePM" type="checkbox" name="times[1][]" value='{"start":"12:00:00","end":"24:00:00"}'>Afternoon</td>
        </tr>
-       <tr> 
+       <tr>
            <th scope="row">Wednesday</th>
-	   <td><input id="wedAM" type="checkbox" name="times[<?php $wednesday ?>]" value="<?php AM ?>">Morning</td>
-	   <td><input id="wedPM" type="checkbox" name="times[<?php $wednesday ?>]" value="<?php PM ?>">Afternoon</td>
+	   <td><input id="wedAM" type="checkbox" name="times[2][]" value='{"start":"00:00:00","end":"12:00:00"}'>Morning</td>
+	   <td><input id="wedPM" type="checkbox" name="times[2][]" value='{"start":"12:00:00","end":"24:00:00"}'>Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Thursday</th>
-	   <td><input id="thurAM" type="checkbox" name="times[<?php $thursday ?>]" value="<?php AM ?>">Morning</td>
-	   <td><input id="thurPM" type="checkbox" name="times[<?php $thursday ?>]" value="<?php PM ?>">Afternoon</td>
+	   <td><input id="thurAM" type="checkbox" name="times[3][]" value='{"start":"00:00:00","end":"12:00:00"}'>Morning</td>
+	   <td><input id="thurPM" type="checkbox" name="times[3][]" value='{"start":"12:00:00","end":"24:00:00"}'>Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Friday</th>
-	   <td><input id="friAM" type="checkbox" name="times[<?php $friday ?>]" value="<?php AM ?>">Morning</td>
-	   <td><input id="friPM" type="checkbox" name="times[<?php $friday ?>]" value="<?php PM ?>">Afternoon</td>
+	   <td><input id="friAM" type="checkbox" name="times[4][]" value='{"start":"00:00:00","end":"12:00:00"}'>Morning</td>
+	   <td><input id="friPM" type="checkbox" name="times[4][]" value='{"start":"12:00:00","end":"24:00:00"}'>Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Satursday</th>
-	   <td><input id="satAM" type="checkbox" name="times[<?php $saturday ?>]" value="<?php AM ?>">Morning</td>
-	   <td><input id="satPM" type="checkbox" name="times[<?php $saturday ?>]" value="<?php PM ?>">Afternoon</td>
+	   <td><input id="satAM" type="checkbox" name="times[5][]" value='{"start":"00:00:00","end":"12:00:00"}'>Morning</td>
+	   <td><input id="satPM" type="checkbox" name="times[5][]" value='{"start":"12:00:00","end":"24:00:00"}'>Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Sunday</th>
-	   <td><input id="sunAM" type="checkbox" name="times[<?php $sunday ?>]" value="<?php AM ?>">Morning</td>
-	   <td><input id="sunPM" type="checkbox" name="times[<?php $sunday ?>]" value="<?php PM ?>">Afternoon</td>
+	   <td><input id="sunAM" type="checkbox" name="times[6][]" value='{"start":"00:00:00","end":"12:00:00"}'>Morning</td>
+	   <td><input id="sunPM" type="checkbox" name="times[6][]" value='{"start":"12:00:00","end":"24:00:00"}'>Afternoon</td>
        </tr>
        </tbody>
      </thead>
