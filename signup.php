@@ -108,6 +108,10 @@ $pagetitle = "Sign up";
 require 'inc/header.php'; 
 require 'inc/validate.php';
 
+if ($session) {
+   header("location:index.php");
+}
+
 ?>
 
    <section class="main h-100 container-fluid with-overflow with-background">

@@ -9,8 +9,20 @@
 <?php 
 $pagetitle = "Welcome";
 require 'inc/header.php'; 
+
+$monday =0;
+$tuesday =1;
+$wednesday =2;
+$thursday =3;
+$friday =4;
+$saturday =5;
+$sunday =6;
+$AM =0;
+$PM =1;
+
 ?>
 
+<br><br>
 <section class="with-overflow">   
    <section class="main with-background h-100 container-fluid">
    <div class="jumbotron"><br><br><br><br>
@@ -20,25 +32,25 @@ require 'inc/header.php';
    </div>
    </section>
    <section id="section1"><br><br><br><br>
-    <form class="text-center" method="post" action="action.php">
+    <form class="text-center" method="post" action="search.php">
       <label for="course" ><b>Pick the course you would like to find a tutor for:</b></label><br>
-      <select multiple id="course" name="course[]">
-        <option value="CSCI112">CSCI 112 - (Applications Programming)</option>
-        <option value="CSCI115">CSCI 115 - (Web Page Techniques)</option>
-        <option value="CSCI160">CSCI 160 - (Computing Science I)</option>
-        <option value="CSCI161">CSCI 161 - (Computing Science II)</option>
-        <option value="CSCI162">CSCI 162 - (Topics in Computing Science)</option>
-        <option value="CSCI261">CSCI 261 - (Computer Architecture and Assembly Language)</option>
-        <option value="MATH121">MATH 121 - (Calculus I)</option>
-        <option value="MATH123">MATH 123 - (Logic and Foundations)</option>
-        <option value="CSCI251">CSCI 251 - (Systems and Networks)</option>
-        <option value="CSCI260">CSCI 260 - (Data Structures)</option>
-        <option value="CSCI265">CSCI 265 - (Software Engineering)</option>
-        <option value="CSCI310">CSCI 310 - (Intro to Graphical User Interfaces)</option>
-        <option value="CSCI331">CSCI 331 - (Object Oriented Programming)</option>
-        <option value="CSCI370">CSCI 370 - (Database Systems)</option>
-        <option value="CSCI375">CSCI 375 - (Intro to Systems Analysis)</option>
-        <option value="CSCI400">CSCI 400 - (Computers and Society)</option>
+      <select multiple id="courses" name="courses[]">
+        <option value="csci112">CSCI 112 - (Applications Programming)</option>
+        <option value="csci115">CSCI 115 - (Web Page Techniques)</option>
+        <option value="csci160">CSCI 160 - (Computing Science I)</option>
+        <option value="csci161">CSCI 161 - (Computing Science II)</option>
+        <option value="csci162">CSCI 162 - (Topics in Computing Science)</option>
+        <option value="csci261">CSCI 261 - (Computer Architecture and Assembly Language)</option>
+        <option value="csci121">MATH 121 - (Calculus I)</option>
+        <option value="csci123">MATH 123 - (Logic and Foundations)</option>
+        <option value="csci251">CSCI 251 - (Systems and Networks)</option>
+        <option value="csci260">CSCI 260 - (Data Structures)</option>
+        <option value="csci265">CSCI 265 - (Software Engineering)</option>
+        <option value="csci310">CSCI 310 - (Intro to Graphical User Interfaces)</option>
+        <option value="csci331">CSCI 331 - (Object Oriented Programming)</option>
+        <option value="csci370">CSCI 370 - (Database Systems)</option>
+        <option value="csci375">CSCI 375 - (Intro to Systems Analysis)</option>
+        <option value="csci400">CSCI 400 - (Computers and Society)</option>
       </select><br><br>
       <p><b>Check all the times that work for you:</b> &nbsp;
       <input id="day" type="checkbox" name="day" value="any">All</p>
@@ -47,46 +59,47 @@ require 'inc/header.php';
        <tbody>
        <tr>
 	   <th scope="row">Monday</th>
-	   <td><input id="monAM" type="checkbox" name="monAM" value="monAM">Morning</td>
-	   <td><input id="monPM" type="checkbox" name="monPM" value="monPM">Afternoon</td>
+	   <td><input id="monAM" type="checkbox" name="times[<?php $monday ?>]" value="<?php AM ?>">Morning</td>
+	   <td><input id="monPM" type="checkbox" name="times[<?php $monday ?>]" value="<?php PM ?>">Afternoon</td>
        </tr>
        <tr>
 	   <th scope="row">Tuesday</th>
-           <td><input id="tueAM" type="checkbox" name="tueAM" value="tueAM">Morning</td>
-           <td><input id="tuePM" type="checkbox" name="tuePM" value="tuePM">Afternoon</td>
+	   <td><input id="tueAM" type="checkbox" name="times[<?php $tuesday ?>]" value="<?php AM ?>">Morning</td>
+	   <td><input id="tuePM" type="checkbox" name="times[<?php $tuesday ?>]" value="<?php PM ?>">Afternoon</td>
        </tr>
        <tr> 
            <th scope="row">Wednesday</th>
-           <td><input id="wedAM" type="checkbox" name="wedAM" value="wedAM">Morning</td>
-           <td><input id="wedPM" type="checkbox" name="wedPM" value="wedPM">Afternoon</td>
+	   <td><input id="wedAM" type="checkbox" name="times[<?php $wednesday ?>]" value="<?php AM ?>">Morning</td>
+	   <td><input id="wedPM" type="checkbox" name="times[<?php $wednesday ?>]" value="<?php PM ?>">Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Thursday</th>
-           <td><input id="thurAM" type="checkbox" name="thurAM" value="thurAM">Morning</td>
-           <td><input id="thurPM" type="checkbox" name="thurPM" value="thurPM">Afternoon</td>
+	   <td><input id="thurAM" type="checkbox" name="times[<?php $thursday ?>]" value="<?php AM ?>">Morning</td>
+	   <td><input id="thurPM" type="checkbox" name="times[<?php $thursday ?>]" value="<?php PM ?>">Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Friday</th>
-           <td><input id="friAM" type="checkbox" name="friAM" value="friAM">Morning</td>
-           <td><input id="friPM" type="checkbox" name="friPM" value="friPM">Afternoon</td>
+	   <td><input id="friAM" type="checkbox" name="times[<?php $friday ?>]" value="<?php AM ?>">Morning</td>
+	   <td><input id="friPM" type="checkbox" name="times[<?php $friday ?>]" value="<?php PM ?>">Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Satursday</th>
-           <td><input id="satAM" type="checkbox" name="satAM" value="satAM">Morning</td>
-           <td><input id="satPM" type="checkbox" name="satPM" value="satPM">Afternoon</td>
+	   <td><input id="satAM" type="checkbox" name="times[<?php $saturday ?>]" value="<?php AM ?>">Morning</td>
+	   <td><input id="satPM" type="checkbox" name="times[<?php $saturday ?>]" value="<?php PM ?>">Afternoon</td>
        </tr>
        <tr>
            <th scope="row">Sunday</th>
-           <td><input id="sunAM" type="checkbox" name="sunAM" value="sunAM">Morning</td>
-           <td><input id="sunPM" type="checkbox" name="sunPM" value="sunPM">Afternoon</td>
+	   <td><input id="sunAM" type="checkbox" name="times[<?php $sunday ?>]" value="<?php AM ?>">Morning</td>
+	   <td><input id="sunPM" type="checkbox" name="times[<?php $sunday ?>]" value="<?php PM ?>">Afternoon</td>
        </tr>
        </tbody>
      </thead>
      </table>
-     <input class="btn btn-primary btn-lg"  type="submit" value="Submit">
+     <input class="btn btn-primary btn-lg"  type="submit" name="submit" value="Submit">
      </div>
     </form>
    </section>
+   <br><br><br><br>
 </section>
 <?php require 'inc/footer.php'; ?>
 

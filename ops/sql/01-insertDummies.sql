@@ -6,11 +6,11 @@
  */
 
 -- creating dummy profiles
-insert into profiles(email,firstname,lastname,date_joined,avatar) values ("danthemango@tutorhub.com", "Daniel","Guenther",NOW(),"card_snowydan.jpg");
-insert into profiles(email,firstname,lastname,date_joined,avatar) values ("neptunny@tutorhub.com", "Nep","Tune",NOW(),"card_neptune.jpg");
-insert into profiles(email,firstname,lastname,date_joined,avatar) values ("yourbuddhy@tutorhub.com", "Budd","Ha",NOW(),"card_thai_statue.jpg");
-insert into profiles(email,firstname,lastname,date_joined,avatar) values ("palmy@tutorhub.com", "Palm","Trees",NOW(),"card_palm_tree.jpg");
-insert into profiles(email,firstname,lastname,date_joined) values ("jdoe@tutorhub.com", "John","Doe",NOW());
+insert into profiles(email,firstname,lastname,phone,date_joined,avatar) values ("danthemango@tutorhub.com", "Daniel","Guenther",5555555555,NOW(),"card_snowydan.jpg");
+insert into profiles(email,firstname,lastname,phone,date_joined,avatar) values ("neptunny@tutorhub.com", "Nep","Tune",5555555556,NOW(),"card_neptune.jpg");
+insert into profiles(email,firstname,lastname,phone,date_joined,avatar) values ("yourbuddhy@tutorhub.com", "Budd","Ha",5555555557,NOW(),"card_thai_statue.jpg");
+insert into profiles(email,firstname,lastname,phone,date_joined,avatar) values ("palmy@tutorhub.com", "Palm","Trees",5555555558,NOW(),"card_palm_tree.jpg");
+insert into profiles(email,firstname,lastname,phone,date_joined) values ("jdoe@tutorhub.com", "John","Doe",5555555559,NOW());
 
 -- insert a list of classes
 insert into classes(code, description) values("csci160", "Computer Science I");
