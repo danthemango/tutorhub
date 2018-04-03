@@ -23,7 +23,7 @@ create table profiles (
    password    VARCHAR(128),   -- TODO NOT NULL,
    firstname   VARCHAR(40),
    lastname    VARCHAR(40),
-   phone       VARCHAR(40),
+   phone       VARCHAR(40)    NOT NULL,
    date_joined DATETIME,
    ptype       VARCHAR(20)    NOT NULL DEFAULT "tutor",
    pay         DECIMAL(13,2)  NOT NULL DEFAULT 20.00,
@@ -32,6 +32,7 @@ create table profiles (
 );
 
 -- classes which exist on campus
+-- (note: class code should be alphanumeric)
 create table classes(
    code        VARCHAR(10),   -- e.g.: math123
    description VARCHAR(100),
