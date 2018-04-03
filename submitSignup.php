@@ -1,113 +1,141 @@
-<?php // session_start(); /* Starts the session */
-
-echo "test";
-//echo "$_POST['times']['monday'][0]";
-print_r($_POST);
-
-// CONNTECT TO DATABASE, INSERT STATEMENTS
-
-
-
-/*
-if(!isset($_SESSION['UserData']['Username'])){
-	header("location:login.php");
-	exit;
-}*/
+<?php 
 
 /* PHP for tutor signup form submission
 Author: Camille Nicole James
 Created: Mar 22, 2018
-Edited: 
+Edited: Mar 27, 2018, Mar 29, 2018
 Purpose: This file submits form data to the database for tutorhub signup.php */
- 
 
 
+require 'inc/header.php'; 
+require_once("inc/dbinfo.inc");
+$pagetitle = "Signed up!";
 
 
- /*
-// Check that all fields were entered here (name, colours, animal, font)
-if(isset($_POST['name'])){
-	$userName = $_POST['name'];
-	$userName = trim($userName);
- 	if(strlen($userName) <=0) {
-		$err = true;
-	}
-}
-else{
-	$err = true;
-}
+$email = $_POST['email'];
+$firstname = $_POST['firstname']; 
+$lastname  = $_POST['lastname']; 
+$phone = $_POST['phone']; 
+$uPassword = $_POST['password'];
+$pay = $_POST['rate'];
 
+echo "<div class='signupBodyStyles' style='margin:10% 10px 0 5%;'>";
 
-if(isset($_POST['col1'])){
-	$colour1= $_POST['col1'];
-	$colour1 = trim($colour1);
- 	if(strlen($colour1) <=0) {
-		$err = true;
-	}
-}
-else{
-	$err = true;
-}
-
-if(isset($_POST['col2'])){
-	$colour2 = $_POST['col2'];
-	$colour2 = trim($colour2);
- 	if(strlen($colour2) <=0) {
-		$err = true;
-	}
-}
-else{
-	$err = true;
+// Insert personal info into database: name, email, pass, phone, date joined, hourly pay rate
+try{
+   $dbh = new PDO("mysql:host=$host;dbname=$database", $user, $password);
+   // insert the data:
+   $sql = 'insert into profiles(email,password,firstname,lastname,phone,date_joined,pay) values (:email, :uPassword, :firstname,:lastname,:phone, NOW(), :pay)';
+   $sth = $dbh->prepare($sql);
+   $result = $sth->execute(array(':email' => $email, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':pay' => $pay, ':uPassword' => $uPassword));
+   if($result){
+    echo "Thank you for signing up! Your personal information has been submitted successfully.<br>";
+   }else{
+    echo "Your personal information could not be submitted successfully. Please try again.<br>";
+   }
+   $dbh = null;
+}catch(PDOException $e){
+      echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
+      // for debugging: 
+      echo "error from database: " . $e->getMessage() . "<br />";
 }
 
-if(isset($_POST['animal'])){
-	$faveanimal = $_POST['animal'];
-	$faveanimal = trim($faveanimal);
- 	if(strlen($faveanimal) <=0) {
-		$err = true;
-	}
-}
-else{
-	$err = true;
+$id = ""; // variable to hold user ID
 
-}
 
-if(isset($_POST['font'])){
-	$selectedfont = $_POST['font'];
-}
-else{
-	$err = true;
-}
-
-// Test for countries selected here
-if (isset($_POST['country'])) {
-	$mycountry = $_POST['country'];
+// grab user ID with query
+try{
+   $dbh = new PDO("mysql:host=$host;dbname=$database", $user, $password);
+   // insert the data:
+   $sql = 'select id from profiles where email = :email';
+   $sth = $dbh->prepare($sql);
+   $sth->execute(array(':email' => $email));
+   $result = $sth->fetch();
+   $id = $result[0];
+   if($result){
+    echo "Your user ID is as follows: $id <br>";
+   }else{
+    echo "User ID could not be found.<br>";
+   }
+   $dbh = null;
+	}catch(PDOException $e){
+      echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
+      // for debugging: 
+      echo "error from database: " . $e->getMessage() . "<br />";
 }
 
 
-// If there was an error, load bad.html
-if ($err == true) {
-	header("location:bad.html");
+ echo "You signed up to tutor the following classes: <br>";
+//Insert skills into database:
+foreach ($_POST['classes'] as $classes) {
+	//echo $classes;
+		try{
+		   $dbh = new PDO("mysql:host=$host;dbname=$database", $user, $password);
+		   // insert the data:
+		   $sql = 'insert into skills (id, class) values(:id, :class)';
+		   $sth = $dbh->prepare($sql);
+		   $result = $sth->execute(array(':id' => $id, ':class' => $classes));
+		   if($result){
+		    echo "$classes <br>";
+		   }else{
+		    echo "Error! Your class information could not be submitted successfully.<br>";
+		   }
+		   $dbh = null;
+		}catch(PDOException $e){
+		      echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
+		      // for debugging: 
+		      echo "error from database: " . $e->getMessage() . "<br />";
+		}
 }
 
-// otherwise, proceed and include front.php
-else {
-	include('front.php'); 
+// Insert availability times into database
+foreach($_POST['times'] as $dayNum => $dayTimes){
+    foreach($dayTimes as $time){
+        //echo "you want to work on $dayNum at $time<br/>";
+        // explode function seperates the start and end times. ex. 8000to9000 will be 8000 and 9000
+        $arrayTime = explode("to", $time); 
+        $startTime; 
+        $endTime; 
+        // explode again to seperate 12:00:00 into distinct parts
+        foreach ($arrayTime as $i => $indTimes) {
+        	if ($i == 0) {
+				$startTime = explode(":", $indTimes);
+        	}
+        	else {
+        		$endTime = explode(":", $indTimes);
+        	}
+        }
+
+        // connect to database and insert values here:
+		try{
+		   $dbh = new PDO("mysql:host=$host;dbname=$database", $user, $password);
+		   // insert the data:
+		   $sql = 'insert into times (id, daynum, starttime, endtime) values(:id, :dayNum, maketime(:s1, :s2, :s3), maketime(:e1, :e2, :e3))';
+		   $sth = $dbh->prepare($sql);
+		   $result = $sth->execute(array(':id' => $id,':dayNum' => $dayNum, ':s1' => $startTime[0], ':s2' => $startTime[1], ':s3' => $startTime[2], ':e1' => $endTime[0], ':e2' => $endTime[1], ':e3' => $endTime[2]));
+		   if($result){
+		    echo "Your availability has been submitted successfully!<br>";
+		   }else{
+		    echo "Your availability could not be submitted successfully.<br>";
+		   }
+		   $dbh = null;
+		}catch(PDOException $e){
+		      echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
+		      // for debugging: 
+		      //echo "error from database: " . $e->getMessage() . "<br />\n";
+		}
+    }
 }
 
+echo "<p>Thank you for signing up for tutorhub! <br><br> <strong><a href='index.php'>Return home</a></strong></p>";
+echo "</div>";
 
+//Debugging info:
+//echo "$_POST['times']['monday'][0]";
+//print_r($_POST)
+//print_r ($_POST['classes']);
 
-echo "<body style=\"background-color:$colour1;color:$colour2;font-family:$selectedfont;text-align:center;border:2px solid black; \">"; 
-
-echo "Here are your results- it's magic!";
-echo "<h1>$userName's favourite animal is</h1>";
-echo "$faveanimal <br><br><br>"; 
-echo "You selected the following preferred country to visit: <br>";
-echo "$mycountry <br><br><br>";
-
-*/
-
-include('back.php'); 
+include('inc/footer.php'); 
 
 
 ?>
