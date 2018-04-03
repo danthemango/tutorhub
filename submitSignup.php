@@ -31,8 +31,9 @@ try{
    $result = $sth->execute(array(':email' => $email, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':pay' => $pay, ':uPassword' => password_encrypt($uPassword)));
    if($result){
     echo "Thank you for signing up! Your personal information has been submitted successfully.<br><br>";
+    echo "You signed up to tutor the following classes: <br>";
    }else{
-    echo "Your personal information could not be submitted successfully. Please try again.<br><br>";
+    echo "Your personal information could not be submitted. Please try again.<br><br>";
    }
    $dbh = null;
 }catch(PDOException $e){
@@ -66,8 +67,6 @@ try{
       echo "error from database: " . $e->getMessage() . "<br />";
 }
 
-
- echo "You signed up to tutor the following classes: <br>";
 //Insert skills into database:
 foreach ($_POST['classes'] as $classes) {
 	//echo $classes;
