@@ -14,9 +14,9 @@ $login_error = false;
 if ($session) {
    header("location:index.php");
 } else if (isset($_POST['submit'])) {
-   $email = $_POST['email'];
-   $password = $_POST['password'];
-   $info = attemptLogin($email, $password);
+   $try_email = $_POST['email'];
+   $try_pwd = $_POST['password'];
+   $info = attemptLogin($try_email, $try_pwd);
 
    if ($info) {
       $_SESSION['UserData']['Username'] = htmlspecialchars($info[0]);

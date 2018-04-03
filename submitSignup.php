@@ -9,6 +9,7 @@ Purpose: This file submits form data to the database for tutorhub signup.php */
 
 require 'inc/header.php'; 
 require_once("inc/dbinfo.inc");
+require_once("inc/auth.php");
 $pagetitle = "Signed up!";
 
 
@@ -27,7 +28,7 @@ try{
    // insert the data:
    $sql = 'insert into profiles(email,password,firstname,lastname,phone,date_joined,pay) values (:email, :uPassword, :firstname,:lastname,:phone, NOW(), :pay)';
    $sth = $dbh->prepare($sql);
-   $result = $sth->execute(array(':email' => $email, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':pay' => $pay, ':uPassword' => $uPassword));
+   $result = $sth->execute(array(':email' => $email, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':pay' => $pay, ':uPassword' => password_encrypt($uPassword)));
    if($result){
     echo "Thank you for signing up! Your personal information has been submitted successfully.<br>";
    }else{

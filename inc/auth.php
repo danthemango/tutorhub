@@ -8,11 +8,10 @@
 	require_once("dbinfo.inc");
 
 	function attemptLogin($try_email, $try_pwd) {
-		global $host, $database, $user, $pwd;
+		global $host, $database, $user, $password;
 		$myHandle;
-
 		try {
-			$myHandle = new PDO("mysql:host=$host;dbname=$database", $user, $pwd);
+			$myHandle = new PDO("mysql:host=$host;dbname=$database", $user, $password);
 		} catch(PDOException $e) {
 			return false;
 		}
@@ -44,11 +43,11 @@
 	}
 
 	function isNewEmail($new_email) {
-		global $host, $database, $user, $pwd;
+		global $host, $database, $user, $password;
 		$myHandle;
 
 		try {
-			$myHandle = new PDO("mysql:host=$host;dbname=$database", $user, $pwd);
+			$myHandle = new PDO("mysql:host=$host;dbname=$database", $user, $password);
 		} catch(PDOException $e) {
 			return false;
 		}
