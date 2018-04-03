@@ -9,9 +9,10 @@
       2018-03-12 Camille: added course selection and tried implementing collapsible schedules
       2018-03-14 Camille: completed scheduling section & rest of file edits
       2018-03-26 Camille: added hourly rate, fixed layout issues and padding, changed hourly inputs
+      2019-04-03 Camille: edited background photo dimensions
 -->
 
-<!-- CSS written by CJ -->
+<!-- Page-Specific CSS written by CJ -->
 <style>
   .myForm, h2, h3, button {
     text-align: center;
@@ -99,6 +100,14 @@
     padding: 0px 58px;
 
   }
+  
+  .add-background {
+	 background-image: url("img/background.jpg");
+	 background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 62%;
+}
+
 
 </style>
 
@@ -113,41 +122,38 @@ if ($session) {
 }
 
 ?>
+		<section class="main h-100 container-fluid with-overflow add-background">
+		   <div class="myHeader container-fluid">
+		      <h1 class="display-4">Sign up now!</h1>
+		   </div>
 
-   <section class="main h-100 container-fluid with-overflow with-background">
-      <div class="myHeader container-fluid">
-        <h1 class="display-4">Sign up now!</h1>
-      </div>
 
-
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Personal info ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-  <h2> Profile Creation </h2>
-  <h3> Personal Information </h3>
-
-  <form action="submitSignup.php" method='post' class='myForm'>
-      <div class='personalInfo'>
-          <span class='textLabels'>First name:</span><br>
-          <input type="text" name="firstname">
-          <br>
-          <span class='textLabels'>Last name:</span><br>
-          <input type="text" name="lastname">
-          <br>
-          <span class='textEmailLabel'>Email (username)</span><br>
-          <input type="text" name="email">
-          <br>
-          <span class='textLabels'>Password:</span><br>
-          <input type="text" name="password">
-          <br>
-          <span class='textPhoneLabel'>Phone number:</span><br>
-          <input type="text" name="phone">
-          <br>
-          <span class='textRateLabel'>Hourly rate:</span><br>
-          $ <input type="text" name="rate">
-          <br><br>
-    </div>
+	  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Personal info ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+	  <h2> Profile Creation </h2>
+	  <h3> Personal Information </h3>
+	  <form action="submitSignup.php" method='post' class='myForm'>
+		   <div class='personalInfo'>
+		       <span class='textLabels'>First name:</span><br>
+		       <input type="text" name="firstname">
+		       <br>
+		       <span class='textLabels'>Last name:</span><br>
+		       <input type="text" name="lastname">
+		       <br>
+		       <span class='textEmailLabel'>Email (username)</span><br>
+		       <input type="text" name="email">
+		       <br>
+		       <span class='textLabels'>Password:</span><br>
+		       <input type="text" name="password">
+		       <br>
+		       <span class='textPhoneLabel'>Phone number:</span><br>
+		       <input type="text" name="phone">
+		       <br>
+		       <span class='textRateLabel'>Hourly rate:</span><br>
+		       $ <input type="text" name="rate">
+		       <br><br>
+		 </div> <!-- end personalInfo --> 
   <hr>
-
+  
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Course selection ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
   <h2> Courses </h2>

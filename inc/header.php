@@ -51,7 +51,7 @@
 if ($session) {
   echo "
     <li>
-      <img src='img/profile/" . $session_avatar . "' class='avatar img-responsive'>
+      <img src='img/profile/" . $session_avatar . "' class='avatar img-responsive' alt='Tutor Avatar'>
       <span class='header-username text-info'>" . $session_user . "</span>
     </li>
   ";
