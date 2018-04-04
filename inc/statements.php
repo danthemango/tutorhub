@@ -51,7 +51,7 @@ function isValidSearchPost($getty){
       return "<p>No search made</p>";
    }
    if(!isset($getty['courses']) || !is_array($getty['courses'])){
-      return "<p>Invalid search fields</p>";
+      return "<p>Please select some courses</p>";
    }
    if((!isset($getty['times']) || !is_array($getty['times']))
       && (!isset($getty['day']) || !is_string($getty['day']))){
@@ -59,7 +59,7 @@ function isValidSearchPost($getty){
    }
    if(count($getty['courses']) <= 0 || (count($getty['times']) <= 0
       && $getty['day'] != "any")){
-      return "<p>Nothing to search</p>";
+      return "<p>Please select some courses and a timeframe</p>";
    }
    return "";
 }
