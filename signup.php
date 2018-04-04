@@ -140,16 +140,16 @@ if ($session) {
 		       <input type="text" name="lastname">
 		       <br>
 		       <span class='textEmailLabel'>Email (username)</span><br>
-		       <input type="text" name="email">
+		       <input type="email" name="email">
 		       <br>
 		       <span class='textLabels'>Password:</span><br>
-		       <input type="text" name="password">
+		       <input type="password" name="password">
 		       <br>
 		       <span class='textPhoneLabel'>Phone number:</span><br>
 		       <input type="text" name="phone">
 		       <br>
 		       <span class='textRateLabel'>Hourly rate:</span><br>
-		       $ <input type="text" name="rate">
+		       $ <input type="number" name="rate">
 		       <br><br>
 		 </div> <!-- end personalInfo --> 
   <hr>
