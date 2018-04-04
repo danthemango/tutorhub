@@ -10,6 +10,7 @@
  */
 
 require_once("inc/dbinfo.inc");
+
 try{
    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
    $getNumProfilesStatement = $dbh->prepare('select count(*) from profiles');
@@ -49,11 +50,15 @@ function isValidSearchPost($getty){
    if(!isset($getty['submit']) || $getty['submit'] != "Submit"){
       return "<p>No search made</p>";
    }
-   if(!isset($getty['courses']) || !is_array($getty['courses'])
-      || !isset($getty['times']) || !is_array($getty['times'])){
+   if(!isset($getty['courses']) || !is_array($getty['courses'])){
       return "<p>Invalid search fields</p>";
    }
-   if(count($getty['courses']) <= 0 || count($getty['times']) <= 0){
+   if((!isset($getty['times']) || !is_array($getty['times']))
+      && (!isset($getty['day']) || !is_string($getty['day']))){
+      return "<p>Need to specify some timeframe</p>";
+   }
+   if(count($getty['courses']) <= 0 || (count($getty['times']) <= 0
+      && $getty['day'] != "any")){
       return "<p>Nothing to search</p>";
    }
    return "";
@@ -321,14 +326,16 @@ function getTimesSqlBindings(&$form_times){
    foreach($form_times as $day => $periods){
       foreach($periods as $period){
          $day_sql = '';
-         $day_sql .= "(times.daynum = :day" . $i++ . " and ";
+         $day_sql .= "(times.daynum = :day" . $i++ . " and (";
          $day_sql .= "(starttime <= :form_starttime".$i++. " and endtime >= :form_starttime".$i++.") or ";
          $day_sql .= "(starttime <= :form_endtime".$i++. " and endtime >= :form_endtime" . $i++ . ") or ";
          $day_sql .= "(starttime > :form_starttime".$i++. " and endtime < :form_endtime".$i++."))";
+         $day_sql .= ')';
          $periodsSqlArr[] = $day_sql;
       }
    }
-   return 'profiles.id in (select id from times where' . implode(' or ',$periodsSqlArr) . ")";
+   $sql = 'profiles.id in (select id from times where' . implode(' or ',$periodsSqlArr) . ")";
+   return $sql;
 }
 
 // binds the values from from form_times into a prepared statement
@@ -350,6 +357,7 @@ function doTimesSqlBindings(&$stmt,&$form_times){
 // returns the extra sql bindings necessary for the courses specified
 function getCoursesSqlBindings(&$form_courses){
    $i = 0;
+
    foreach($form_courses as $course){
       $courseTags[] = ':course'.$i++;
    }
