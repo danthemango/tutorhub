@@ -3,15 +3,16 @@
 /* PHP for tutor signup form submission
 Author: Camille Nicole James
 Created: Mar 22, 2018
-Edited: Mar 27, 2018, Mar 29, 2018
+Edited: Mar 27, 2018, Mar 29, 2018, Apr 3, 2018
 Purpose: This file submits form data to the database for tutorhub signup.php */
 
 
 require 'inc/header.php'; 
 require_once("inc/dbinfo.inc");
+require_once("inc/auth.php");
 $pagetitle = "Signed up!";
 
-
+// Variables to hold form values
 $email = $_POST['email'];
 $firstname = $_POST['firstname']; 
 $lastname  = $_POST['lastname']; 
@@ -27,11 +28,12 @@ try{
    // insert the data:
    $sql = 'insert into profiles(email,password,firstname,lastname,phone,date_joined,pay) values (:email, :uPassword, :firstname,:lastname,:phone, NOW(), :pay)';
    $sth = $dbh->prepare($sql);
-   $result = $sth->execute(array(':email' => $email, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':pay' => $pay, ':uPassword' => $uPassword));
+   $result = $sth->execute(array(':email' => $email, ':firstname' => $firstname, ':lastname' => $lastname, ':phone' => $phone, ':pay' => $pay, ':uPassword' => password_encrypt($uPassword)));
    if($result){
-    echo "Thank you for signing up! Your personal information has been submitted successfully.<br>";
+    echo "Thank you for signing up! Your personal information has been submitted successfully.<br><br>";
+    echo "You signed up to tutor the following classes: <br>";
    }else{
-    echo "Your personal information could not be submitted successfully. Please try again.<br>";
+    echo "Your personal information could not be submitted. Please try again.<br><br>";
    }
    $dbh = null;
 }catch(PDOException $e){
@@ -52,11 +54,12 @@ try{
    $sth->execute(array(':email' => $email));
    $result = $sth->fetch();
    $id = $result[0];
+   /*For debugging:
    if($result){
-    echo "Your user ID is as follows: $id <br>";
+    //echo "Your user ID is as follows: $id <br>";
    }else{
     echo "User ID could not be found.<br>";
-   }
+   } */
    $dbh = null;
 	}catch(PDOException $e){
       echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
@@ -64,8 +67,6 @@ try{
       echo "error from database: " . $e->getMessage() . "<br />";
 }
 
-
- echo "You signed up to tutor the following classes: <br>";
 //Insert skills into database:
 foreach ($_POST['classes'] as $classes) {
 	//echo $classes;
@@ -78,7 +79,7 @@ foreach ($_POST['classes'] as $classes) {
 		   if($result){
 		    echo "$classes <br>";
 		   }else{
-		    echo "Error! Your class information could not be submitted successfully.<br>";
+		    echo "Error! Your class information could not be submitted.<br>";
 		   }
 		   $dbh = null;
 		}catch(PDOException $e){
@@ -113,11 +114,12 @@ foreach($_POST['times'] as $dayNum => $dayTimes){
 		   $sql = 'insert into times (id, daynum, starttime, endtime) values(:id, :dayNum, maketime(:s1, :s2, :s3), maketime(:e1, :e2, :e3))';
 		   $sth = $dbh->prepare($sql);
 		   $result = $sth->execute(array(':id' => $id,':dayNum' => $dayNum, ':s1' => $startTime[0], ':s2' => $startTime[1], ':s3' => $startTime[2], ':e1' => $endTime[0], ':e2' => $endTime[1], ':e3' => $endTime[2]));
+		   /*For debugging:
 		   if($result){
 		    echo "Your availability has been submitted successfully!<br>";
 		   }else{
 		    echo "Your availability could not be submitted successfully.<br>";
-		   }
+		   }*/
 		   $dbh = null;
 		}catch(PDOException $e){
 		      echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
@@ -127,7 +129,7 @@ foreach($_POST['times'] as $dayNum => $dayTimes){
     }
 }
 
-echo "<p>Thank you for signing up for tutorhub! <br><br> <strong><a href='index.php'>Return home</a></strong></p>";
+echo "<br><br><p style='font-weight:bold; font-size:200%;'><a href='login.php'>Sign-In To TutorHub!</a></p>";
 echo "</div>";
 
 //Debugging info:

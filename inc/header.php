@@ -51,10 +51,8 @@
 if ($session) {
   echo "
     <li>
-        <a href='#''>
-            <img src='img/profile/" . $session_avatar . "' class='avatar img-responsive'>
-            <span class='header-username'>" . $session_user . "</span>
-        </a>
+      <img src='img/profile/" . $session_avatar . "' class='avatar img-responsive' alt='Tutor Avatar'>
+      <span class='header-username text-info'>" . $session_user . "</span>
     </li>
   ";
   echo "<li><a class='nav-link' href='logout.php'>Logout</a></li>";

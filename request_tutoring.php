@@ -51,7 +51,7 @@ try {
 
 	foreach ($result as $row) {
 		$tutor_firstname = $row['firstname'];
-   	// $tutor_phone = $row['phone'];
+   	$tutor_phone = $row['phone'];
 	}
 
    if (!$tutor_firstname or !$tutor_phone) {
