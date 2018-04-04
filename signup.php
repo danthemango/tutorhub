@@ -143,7 +143,7 @@ if ($session) {
 		       <input type="text" name="email">
 		       <br>
 		       <span class='textLabels'>Password:</span><br>
-		       <input type="text" name="password">
+		       <input type="password" name="password">
 		       <br>
 		       <span class='textPhoneLabel'>Phone number:</span><br>
 		       <input type="text" name="phone">
