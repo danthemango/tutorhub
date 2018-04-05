@@ -39,20 +39,22 @@ $form_day = isset($_GET['day']) && $_GET['day'] == "any";
 
 // attempt to create array of times, ensuring it is valid
 $form_times = [];
-foreach($_GET['times'] as $day => $periods){
-   if(!isValidWeekdayNum($day)){
-      $err .= "<p> Malformed form value ($day is not a valid weekday number (0 to 6))</p>";
-   }else{
-      foreach($periods as $period){
-         $periodObj = json_decode($period);
-         if(is_null($periodObj)){
-            $err .= "<p>Malformed form value (invalid time period)</p>\n";
-            $err .= "<p>expected: '{\"start\":\"hh:mm:ss\",\"end\":\"hh:mm:ss\"}'";
-            $err .= " with hours 'hh', minutes 'mm' and seconds 'ss'</p>\n";
-         }else if(!isValidTimeString($periodObj->start) || !isValidTimeString($periodObj->end)){
-            $err .= "<p>Malformed form value (start or end time)</p>\n";
-         }else{
-            $form_times[$day][] = [$periodObj->start,$periodObj->end];
+if(!$form_day){
+   foreach($_GET['times'] as $day => $periods){
+      if(!isValidWeekdayNum($day)){
+         $err .= "<p> Malformed form value ($day is not a valid weekday number (0 to 6))</p>";
+      }else{
+         foreach($periods as $period){
+            $periodObj = json_decode($period);
+            if(is_null($periodObj)){
+               $err .= "<p>Malformed form value (invalid time period)</p>\n";
+               $err .= "<p>expected: '{\"start\":\"hh:mm:ss\",\"end\":\"hh:mm:ss\"}'";
+               $err .= " with hours 'hh', minutes 'mm' and seconds 'ss'</p>\n";
+            }else if(!isValidTimeString($periodObj->start) || !isValidTimeString($periodObj->end)){
+               $err .= "<p>Malformed form value (start or end time)</p>\n";
+            }else{
+               $form_times[$day][] = [$periodObj->start,$periodObj->end];
+            }
          }
       }
    }
@@ -287,11 +289,17 @@ try{
 
 }catch(PDOException $e){
    $err .= "<p style=\"color:red\">Error in pulling information from database, please contact your web administrator.</p>";
+}catch(Exception $e){
+   $err .= "<p style=\"color:red\">Error in pulling information from database, please contact your web administrator.</p>";
 }
 
-else: // (search err)
 ?>
 
+<?php
+endif;
+
+if($err != ""):
+?>
    <!-- print out any error messages -->
    <div class="row">
       <div class="col-12 alert alert-danger">
@@ -299,7 +307,6 @@ else: // (search err)
          <?=$err?>
       </div>
    </div>
-
 <?php
 endif;
 

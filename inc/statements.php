@@ -7,6 +7,7 @@
  *             2018-03-28 By Dan: completed putTimesInProfiles
  *             2018-04-01 By Dan: added JSON function for times
  * Sources:    - http://php.net/manual/en/pdostatement.bindparam.php
+ *             - https://stackoverflow.com/questions/920353/can-i-bind-an-array-to-an-in-condition
  */
 
 require_once("inc/dbinfo.inc");
@@ -17,7 +18,7 @@ try{
    $getTimesFromIDStatement = $dbh->prepare('select id, daynum, starttime, endtime from times where id = :id');
    $getSkillsFromIDStatement = $dbh->prepare('select class from times where id = :id');
 }catch(PDOException $e){
-      echo "<p style=\"color:red\">Error: please contact your web administrator.</p>";
+      echo "<p style=\"color:red\">Error connecting to the database please contact your web administrator.</p>";
       // for debugging: echo "error from database: " . $e->getMessage() . "<br />\n";
 }
 
@@ -343,13 +344,13 @@ function doTimesSqlBindings(&$stmt,&$form_times){
    $i = 0;
    foreach($form_times as $day => $periods){
       foreach($periods as $period){
-         $stmt->bindParam(":day".$i++, $day);
-         $stmt->bindParam(":form_starttime".$i++, $period[0]);
-         $stmt->bindParam(":form_starttime".$i++, $period[0]);
-         $stmt->bindParam(":form_endtime".$i++, $period[1]);
-         $stmt->bindParam(":form_endtime".$i++, $period[1]);
-         $stmt->bindParam(":form_starttime".$i++, $period[0]);
-         $stmt->bindParam(":form_endtime".$i++, $period[1]);
+         $stmt->bindValue(":day".$i++, $day);
+         $stmt->bindValue(":form_starttime".$i++, $period[0]);
+         $stmt->bindValue(":form_starttime".$i++, $period[0]);
+         $stmt->bindValue(":form_endtime".$i++, $period[1]);
+         $stmt->bindValue(":form_endtime".$i++, $period[1]);
+         $stmt->bindValue(":form_starttime".$i++, $period[0]);
+         $stmt->bindValue(":form_endtime".$i++, $period[1]);
       }
    }
 }
@@ -357,22 +358,22 @@ function doTimesSqlBindings(&$stmt,&$form_times){
 // returns the extra sql bindings necessary for the courses specified
 function getCoursesSqlBindings(&$form_courses){
    $i = 0;
-
+   $courseSql = [];
    foreach($form_courses as $course){
-      $courseTags[] = ':course'.$i++;
+      $courseSql[] = ":course".$i++;
    }
-   return 'profiles.id in (select id from skills where class in ('.implode(' , ',$courseTags).'))';
+   $sql = 'profiles.id in (select id from skills where class in (' . implode(', ', $courseSql).'))';
+   return $sql;
 }
 
 function doCoursesSqlBindings(&$stmt,&$courseTags,&$form_courses){
    $i = 0;
    foreach($form_courses as $course){
-      $stmt->bindParam(':course'.$i++, $course);
+      $stmt->bindValue(":course".$i++, $course);
    }
 }
 
 // returns profiles given the search parameters
-// TODO actually use search parameters
 function getProfiles($startPos = 0, $numResults = 10, $form_day, $form_times, $form_courses){
    global $dbh;
    $results = array();
@@ -393,19 +394,17 @@ function getProfiles($startPos = 0, $numResults = 10, $form_day, $form_times, $f
 
    // construct the sql parts
    $sql = 'select profiles.id, profiles.firstname, profiles.lastname, profiles.phone, profiles.avatar, (select group_concat(skills.class) from skills where skills.id = profiles.id) as courses from profiles ';
-   $sql .= 'where ';
-   $sql .= implode(' and ',$conditionSqlArr);
-   $sql .= ' limit :startPos, :numResults;';
+   $sql .= 'where ' . implode(' and ',$conditionSqlArr);
+   $sql .= ' order by profiles.id limit :startPos, :numResults';
 
    $stmt = $dbh->prepare($sql);
    if(!$stmt){
-      // TODO log error
-      return [];
+      throw new Exception("DBerror, invalid statement in getProfiles\nwith sql:\n$sql\n");
    }
 
    // bind the page limits
-   $stmt->bindParam(':startPos', $startPos);
-   $stmt->bindParam(':numResults', $numResults);
+   $stmt->bindValue(':startPos', $startPos);
+   $stmt->bindValue(':numResults', $numResults);
 
    // bind the schedule pieces
    if(!$form_day){
