@@ -51,8 +51,8 @@ function test_phone($data){
 		echo "phone is required"
 		$error= false;
 	}
-	else if(preg_match("/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/", $data)) {
-		echo "Phone number must be in this format '000-0000-0000'";
+	else if(preg_match("/^[0-9]{10}$/", $data)) {
+		echo "Phone number must be 10 digits";
 		$error= false;
 	}
 	return $error;
@@ -105,8 +105,8 @@ function test_input($data) {
 function test_course($data){
 	test_input($data);
 	$error= true;
-        if (!preg_match('/^[0-9]{8,12}$/',$data)) {
-	echo "course has to be numeric and max. 10 chars"
+        if (!preg_match('/^[0-9]{10}$/',$data)) {
+	echo "course has to be numeric and 10 digits"
 		$error= false;
 	}
 	return $error;
