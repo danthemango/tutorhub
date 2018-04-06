@@ -7,12 +7,7 @@ Edited: Mar 27, 2018, Mar 29, 2018, Apr 3, 2018
 Purpose: This file submits form data to the database for tutorhub signup.php */
 
 $error=0; //false means no error
-require 'inc/header.php'; 
-require_once("inc/dbinfo.inc");
-require_once("inc/auth.php");
 require_once('inc/validate.php');
-$pagetitle = "Signed up!";
-
 // Variables to hold form values
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -57,7 +52,10 @@ if ($error===1) {
 	exit;
 }
 }
-
+require 'inc/header.php';
+require_once("inc/dbinfo.inc");
+require_once("inc/auth.php");
+$pagetitle = "Signed up!";
 
 echo "<div class='signupBodyStyles' style='margin:10% 10px 0 5%;'>";
 
