@@ -88,7 +88,7 @@ require 'inc/header.php';
      </div>
     </form>
    </section>
-   <br><br><br><br>
+<br><br><br>
 </section>
 <?php require 'inc/footer.php'; ?>
 

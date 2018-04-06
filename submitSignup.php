@@ -25,6 +25,7 @@ if(test_email($_POST['email'])){
 
 if(test_name($_POST['firstname'])){
 	$firstname = $_POST['firstname']; 
+	echo "first name".$firstname;
 }else{
 	$error=true;
 }
@@ -53,7 +54,8 @@ if(test_rate($_POST['rate'])){
 }
 
 if ($error) {
-	header("location:signup.php");
+	header('location:signup.php');
+	exit;
 }
 }
 echo "<div class='signupBodyStyles' style='margin:10% 10px 0 5%;'>";
