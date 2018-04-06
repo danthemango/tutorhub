@@ -6,69 +6,66 @@ Created: Mar 22, 2018
 Edited: Mar 27, 2018, Mar 29, 2018, Apr 3, 2018
 Purpose: This file submits form data to the database for tutorhub signup.php */
 
-//$pagetitle = "Signed up!";
-//require 'inc/header.php';
-//require_once("inc/dbinfo.inc");
-//require_once("inc/auth.php");
+$pagetitle = "Signed up!";
+require 'inc/header.php';
+require_once("inc/dbinfo.inc");
+require_once("inc/auth.php");
 require_once('inc/validate.php');
+
 // Variables to hold form values
 $error=false; //false means no error
 $err='';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if(test_email($_POST['email'])){
+   if(test_email($_POST['email'])){
 	$email = $_POST['email'];
-}else{
+   }else{
 	$err.="Email is required and must be of valid format<br>";
 	$error=true;
-}
+   }
 
-if(test_name($_POST['firstname'])){
+   if(test_name($_POST['firstname'])){
 	$firstname = $_POST['firstname']; 
-}else{
+   }else{
 	$err.="First name is required and only letters allowed<br>";
 	$error=true;
-}
+   }
 
-if(test_name($_POST['lastname'])){
+   if(test_name($_POST['lastname'])){
 	$lastname  = $_POST['lastname']; 
-}else{
+   }else{
 	$err.="Last name is required and only letters allowed<br>";
 	$error=true;
-}
-if(test_phone($_POST['phone'])){
+   }
+   if(test_phone($_POST['phone'])){
 	$phone = $_POST['phone']; 
-}else{
+   }else{
 	$err.="phone number is required and and must be 10 digits<br>";
 	$error=true;
-}
+   }
 
-if(test_password($_POST['password'])){
+   if(test_password($_POST['password'])){
 	$uPassword = $_POST['password'];
-}else{
+   }else{
 	$err.="password is required and can only have letters, numbers or !, @, #, $, % and must contain atleast 1 number and 1 letter and be between 8 and 20 chars<br>";
 	$error=true;
-}
-if(test_rate($_POST['rate'])){
+   }
+   if(test_rate($_POST['rate'])){
 	$pay = $_POST['rate'];
-}else{
+   }else{
 	$err.="rate is required and must be numeric<br>";
 	$error=true;
-}
+   }
 
-if ($error) {
+   if ($error) {
 	session_start();
 	header("location:signup.php");
 	$_SESSION['err']=$err;
 	exit;
-}
-}
+   }
 
-$pagetitle = "Signed up!";
-require 'inc/header.php';
-require_once("inc/dbinfo.inc");
-require_once("inc/auth.php");
+}
 
 echo "<div class='signupBodyStyles' style='margin:10% 10px 0 5%;'>";
 
@@ -119,7 +116,8 @@ try{
 
 //Insert skills into database:
 foreach ($_POST['classes'] as $classes) {
-	//echo $classes;
+//echo $classes;
+	if(test_class($classes)){
 		try{
 		   $dbh = new PDO("mysql:host=$host;dbname=$database", $user, $password);
 		   // insert the data:
@@ -137,6 +135,9 @@ foreach ($_POST['classes'] as $classes) {
 		      // for debugging: 
 		      echo "error from database: " . $e->getMessage() . "<br />";
 		}
+	}else{
+		echo "Error! Your class information could not be submitted.<br>";
+	}
 }
 
 // Insert availability times into database
