@@ -10,7 +10,7 @@ $error=0; //false means no error
 require 'inc/header.php'; 
 require_once("inc/dbinfo.inc");
 require_once("inc/auth.php");
-require 'inc/validate.php';
+require_once('inc/validate.php');
 $pagetitle = "Signed up!";
 
 // Variables to hold form values
@@ -54,7 +54,7 @@ if(test_rate($_POST['rate'])){
 
 if ($error===1) {
 	header("location:signup.php",  true,  301);
-	exit();
+	exit;
 }
 }
 

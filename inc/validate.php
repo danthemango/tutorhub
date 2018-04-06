@@ -17,96 +17,94 @@
 
 function test_name($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
 	if (empty($data)){
-                // name fields are required
-	//	echo "name fields are required";
-		$error= false;
+		echo "name fields are required";
+		$error= FALSE;
 	}
-        if (!preg_match("/^[a-zA-Z]*$/",$data)) {
-		//Only letters allowed
-	//	echo "Only letters allowed";
-		$error= false;
+        if (!preg_match("/^[a-zA-Z]*$/",$data)){
+		echo "Only letters allowed";
+		$error= FALSE;
 	}
 	return $error;
 }
 
 function test_email($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
         if (empty($data)){
-         //	 echo "email is required";
-		 $error= false;
+         	 echo "email is required";
+		 $error= FALSE;
 	}
 	if (!filter_var($data, FILTER_VALIDATE_EMAIL)) {
-	//	 echo "Invalid email format";
-		 $error= false;
+		 echo "Invalid email format";
+		 $error= FALSE;
 	}
 	return $error;
 }
 
 function test_password($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
 	if (empty($data)){
-	//	echo "password is required";
-		$error= false;
+		echo "password is required";
+		$error= FALSE;
 	}
         if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/',$data)) {
-      //  echo"Password can only have letters, numbers or these characters !,@,#,$,% and must contain 1 number, 1 letter and be between 8 and 12 chars";
-           $error= false; 
+           echo"Password can only have letters, numbers or these characters !,@,#,$,% and must contain 1 number, 1 letter and be between 8 and 12 chars";
+           $error= FALSE; 
 	}
 	return $error;
 }
 
 function test_phone($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
 	if (empty($data)){
-	//	echo "phone is required";
-		$error= false;
+		echo "phone is required";
+		$error= FALSE;
 	}
 	else if(preg_match("/^[0-9]{10}$/", $data)) {
-	//	echo "Phone number must be 10 digits";
-		$error= false;
+		echo "Phone number must be 10 digits";
+		$error= FALSE;
 	}
 	return $error;
 }
 
 function test_message($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
 	if (empty($data)){
-//		echo "message is required";
-		$error= false;
+		echo "message is required";
+		$error= FALSE;
 	}
 	else if (!filter_var($data, FILTER_SANITIZE_STRING)) {
-//		echo "try again with valid input for your message";
-		$error= false;
+		echo "try again with valid input for your message";
+		$error= FALSE;
 	}
 	return $error;
 }
 
 function test_rate($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
 	if (empty($data)){
-//		echo "rate is required";
-		$error= false;
+		echo "rate is required";
+		$error= FALSE;
 	}
         else if(preg_match("/^[0-9]+$/", $data)) {
-//		echo "rate must be numeric";
-		$error= false;
+		echo "rate must be numeric";
+		$error= FALSE;
 	}
 	return $error;
 }
 
 function test_time($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
 	if (empty($data)){
-//		echo "time is required";
-		$error= false;
+        	echo "time is required";
+		$error= FALSE;
 	}
 }
 
@@ -119,10 +117,10 @@ function test_input($data) {
 
 function test_course($data){
 	test_input($data);
-	$error= true;
+	$error= TRUE;
         if (!preg_match('/^[0-9]{10}$/',$data)) {
-//	echo "course has to be numeric and 10 digits";
-		$error= false;
+		echo "course has to be numeric and 10 digits";
+		$error= FALSE;
 	}
 	return $error;
 }
