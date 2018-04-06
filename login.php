@@ -9,13 +9,25 @@
 $pagetitle = "Tutor Login";
 require_once("inc/auth.php");
 require_once("inc/header.php");
+require_once('inc/validate.php');
 
 $login_error = false;
 if ($session) {
    header("location:index.php");
 } else if (isset($_POST['submit'])) {
-   $try_email = $_POST['email'];
-   $try_pwd = $_POST['password'];
+
+ if(test_email($_POST['email'])){	
+	 $try_email = $_POST['email'];
+ }else{
+	 $login_error = true;
+ }
+
+  if(test_password($_POST['password'])){ 
+	  $try_pwd = $_POST['password'];
+  }else{
+	  $login_error = true;
+  }
+
    $info = attemptLogin($try_email, $try_pwd);
 
    if ($info) {

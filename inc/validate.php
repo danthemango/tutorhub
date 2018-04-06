@@ -75,17 +75,17 @@ function test_message($data){
 	test_input($data);
 	$error= TRUE;
 	if (empty($data)){
-		echo "message is required";
+	//	echo "message is required";
 		$error= FALSE;
 	}
 	else if (!filter_var($data, FILTER_SANITIZE_STRING)) {
-		echo "try again with valid input for your message";
+	//	echo "try again with valid input for your message";
 		$error= FALSE;
 	}
 	return $error;
 }
 
-function test_rate($data){
+function test_number($data){
 	test_input($data);
 	$error= TRUE;
 	if (empty($data)){
@@ -115,11 +115,11 @@ function test_input($data) {
   return $data;
 }
 
-function test_course($data){
+function test_class($data){
 	test_input($data);
 	$error= TRUE;
         if (!preg_match('/^[0-9]{10}$/',$data)) {
-		echo "course has to be numeric and 10 digits";
+		// "course has to be numeric and 10 digits";
 		$error= FALSE;
 	}
 	return $error;

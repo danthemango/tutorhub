@@ -3,60 +3,67 @@
 require_once './inc/dbinfo.inc'; // Loads database secrets
 require_once './inc/twilio.inc'; // Loads Twilio secrets
 require_once './res/Twilio/Twilio/autoload.php'; // Loads the Twilio library
- 
+require_once('inc/validate.php');
+
 use Twilio\Rest\Client;
 
 $err = false;
+$error='';
 
-// TODO: Add sanitization of ID (verify it is a number)
-if (isset($_POST['id'])) {
+if(test_number($_POST['rate'])){
 	$id = $_POST['id'];
 } else {
-	$err = true;
+	$err = true; 
 }
 
 if (isset($_POST['courses'])) {
 	$courses = join(', ', $_POST['courses']);
 } else {
 	$err = true;
+	$error.="Error in courses input <br>";
 }
 
-if (isset($_POST['name'])) {
+if(test_name($_POST['name'])){
 	$name = $_POST['name'];
 } else {
 	$err = true;
+	$error.="First name is required and only letters allowed<br>";
 }
 
-if (isset($_POST['email'])) {
+if(test_email($_POST['email'])){
 	$email = $_POST['email'];
 } else {
 	$err = true;
+	$error.="Email is required and must be of valid format<br>";
 }
 
-if (isset($_POST['phone'])) {
+if(test_phone($_POST['phone'])){
 	$phone = $_POST['phone'];
 } else {
 	$err = true;
+	$error.="phone number is required and and must be 10 digits<br>";
 }
 
-if (isset($_POST['message'])) {
+if(test_message($_POST['message'])){
 	$message = $_POST['message'];
 } else {
 	$err = true;
+	$error.="try again with valid input for your message<br>";
 }
 
-try {
-   $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
-   $result = $dbh->query("SELECT * FROM profiles WHERE id=$id");
+if(!$err){
+ try {
+    $dbh = new PDO("mysql:host=$host;dbname=$user", $user, $password);
+    $result = $dbh->query("SELECT * FROM profiles WHERE id=$id");
 
 	foreach ($result as $row) {
 		$tutor_firstname = $row['firstname'];
    	$tutor_phone = $row['phone'];
 	}
 
-   if (!$tutor_firstname or !$tutor_phone) {
+    if (!$tutor_firstname or !$tutor_phone) {
    	$err = true;
-   }
+    }
 
 	if ($err) {
 		http_response_code(400);
@@ -72,7 +79,11 @@ try {
 			)
 		);
 	}
-} catch (Exception $e) {
+ } catch (Exception $e) {
+   http_response_code(400);
+ }
+
+}else{
    http_response_code(400);
 }
 

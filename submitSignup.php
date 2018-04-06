@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$err.="password is required and can only have letters, numbers or !, @, #, $, % and must contain atleast 1 number and 1 letter and be between 8 and 20 chars<br>";
 	$error=true;
    }
-   if(test_rate($_POST['rate'])){
+   if(test_number($_POST['rate'])){
 	$pay = $_POST['rate'];
    }else{
 	$err.="rate is required and must be numeric<br>";
