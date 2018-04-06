@@ -33,6 +33,13 @@ footer {
   background: white;
 }
 
+/* make all card images the same size */
+.card-img-top{
+   width: 286px;
+   height: 286px;
+   object-fit: cover;
+}
+
 .avatar {
   width: 30px;
   height: 30px;
