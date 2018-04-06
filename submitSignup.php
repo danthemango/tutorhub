@@ -52,10 +52,10 @@ if ($error===1) {
 	exit;
 }
 }
+$pagetitle = "Signed up!"
 require 'inc/header.php';
 require_once("inc/dbinfo.inc");
 require_once("inc/auth.php");
-$pagetitle = "Signed up!";
 
 echo "<div class='signupBodyStyles' style='margin:10% 10px 0 5%;'>";
 
