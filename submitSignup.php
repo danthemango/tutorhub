@@ -6,53 +6,66 @@ Created: Mar 22, 2018
 Edited: Mar 27, 2018, Mar 29, 2018, Apr 3, 2018
 Purpose: This file submits form data to the database for tutorhub signup.php */
 
-$error=0; //false means no error
+//$pagetitle = "Signed up!";
+//require 'inc/header.php';
+//require_once("inc/dbinfo.inc");
+//require_once("inc/auth.php");
 require_once('inc/validate.php');
 // Variables to hold form values
+$error=false; //false means no error
+$err='';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 if(test_email($_POST['email'])){
 	$email = $_POST['email'];
 }else{
-	$error=1;
+	$err.="Email is required and must be of valid format<br>";
+	$error=true;
 }
 
 if(test_name($_POST['firstname'])){
 	$firstname = $_POST['firstname']; 
-	echo "first name".$firstname;
 }else{
-	$error=1;
+	$err.="First name is required and only letters allowed<br>";
+	$error=true;
 }
 
 if(test_name($_POST['lastname'])){
 	$lastname  = $_POST['lastname']; 
 }else{
-	$error=1;
+	$err.="Last name is required and only letters allowed<br>";
+	$error=true;
 }
 if(test_phone($_POST['phone'])){
 	$phone = $_POST['phone']; 
 }else{
-	$error=1;
+	$err.="phone number is required and and must be 10 digits<br>";
+	$error=true;
 }
 
 if(test_password($_POST['password'])){
 	$uPassword = $_POST['password'];
 }else{
-	$error=1;
+	$err.="password is required and can only have letters, numbers or !, @, #, $, % and must contain atleast 1 number and 1 letter and be between 8 and 20 chars<br>";
+	$error=true;
 }
 if(test_rate($_POST['rate'])){
 	$pay = $_POST['rate'];
 }else{
-	$error=1;
+	$err.="rate is required and must be numeric<br>";
+	$error=true;
 }
 
-if ($error===1) {
+if ($error) {
+	session_start();
 	header("location:signup.php");
+	$_SESSION['err']=$err;
 	exit;
 }
 }
-$pagetitle = "Signed up!"
+
+$pagetitle = "Signed up!";
 require 'inc/header.php';
 require_once("inc/dbinfo.inc");
 require_once("inc/auth.php");

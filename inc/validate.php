@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  
  //example how to use this file and functions
@@ -15,15 +14,16 @@
 
  */
 
+
 function test_name($data){
 	test_input($data);
 	$error= TRUE;
 	if (empty($data)){
-		echo "name fields are required";
+	//	echo "name fields are required";
 		$error= FALSE;
 	}
         if (!preg_match("/^[a-zA-Z]*$/",$data)){
-		echo "Only letters allowed";
+	//	echo "Only letters allowed";
 		$error= FALSE;
 	}
 	return $error;
@@ -33,11 +33,11 @@ function test_email($data){
 	test_input($data);
 	$error= TRUE;
         if (empty($data)){
-         	 echo "email is required";
+         //	 echo "email is required";
 		 $error= FALSE;
 	}
 	if (!filter_var($data, FILTER_VALIDATE_EMAIL)) {
-		 echo "Invalid email format";
+	//	 echo "Invalid email format";
 		 $error= FALSE;
 	}
 	return $error;
@@ -47,11 +47,11 @@ function test_password($data){
 	test_input($data);
 	$error= TRUE;
 	if (empty($data)){
-		echo "password is required";
+	//	echo "password is required";
 		$error= FALSE;
 	}
-        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/',$data)) {
-           echo"Password can only have letters, numbers or these characters !,@,#,$,% and must contain 1 number, 1 letter and be between 8 and 12 chars";
+        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,20}$/',$data)) {
+         //  echo "Password can only have letters, numbers or these characters !,@,#,$,% and must contain 1 number, 1 letter and be between 8 and 20 chars";
            $error= FALSE; 
 	}
 	return $error;
@@ -64,7 +64,7 @@ function test_phone($data){
 		echo "phone is required";
 		$error= FALSE;
 	}
-	else if(preg_match("/^[0-9]{10}$/", $data)) {
+	else if(!preg_match("/^[0-9]{10}$/", $data)) {
 		echo "Phone number must be 10 digits";
 		$error= FALSE;
 	}
@@ -89,11 +89,11 @@ function test_rate($data){
 	test_input($data);
 	$error= TRUE;
 	if (empty($data)){
-		echo "rate is required";
+	//	echo "rate is required";
 		$error= FALSE;
 	}
-        else if(preg_match("/^[0-9]+$/", $data)) {
-		echo "rate must be numeric";
+        else if(!preg_match("/^[0-9]+$/", $data)) {
+	//	echo "rate must be numeric";
 		$error= FALSE;
 	}
 	return $error;
@@ -124,5 +124,6 @@ function test_course($data){
 	}
 	return $error;
 }
+
 ?>
 

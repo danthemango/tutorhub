@@ -115,13 +115,25 @@
 
 $pagetitle = "Sign up";
 require 'inc/header.php'; 
-//require 'inc/validate.php';
 
 if ($session) {
    header("location:index.php");
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Edited by Sami Al-Qusus on April 6, 2018 part of validation
+/////////////////////////////////////////////////////////////////////////////////////////////
+if($_SESSION['err']){
+	session_start();
+	echo "<br><br><br><br><div class='text-danger text-center'>";
+	echo "<h3>Please make sure you fill in the form correctly.</h3>";
+	echo $_SESSION['err']."</div>";
+	session_destroy(); 
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 ?>
+
 		<section class="main h-100 container-fluid with-overflow add-background">
 		   <div class="myHeader container-fluid">
 		      <h1 class="display-4">Sign up now!</h1>
