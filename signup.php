@@ -115,7 +115,7 @@
 
 $pagetitle = "Sign up";
 require 'inc/header.php'; 
-require 'inc/validate.php';
+//require 'inc/validate.php';
 
 if ($session) {
    header("location:index.php");
@@ -731,18 +731,16 @@ if ($session) {
       </div> <!-- close row -->
 
       <input type="submit" name="submitSuccess" value="Submit!"> <!-- onclick="submitAlert()"> -->
-
+      
       <!-- Alternative button code: manually made
        <label class="timeSlots">
         <input type="checkbox" name="su2pm" value="su2pm"> 2pm - 3pm
       </label>-->
 
     </div> <!-- end container -->
-    
    </form> 
-
+  <br><br><br>
   </section> <!-- end content -->
-
  <!-- <script type="text/javascript">
     function submitAlert() {
       alert("Your information has been successfully submitted!");

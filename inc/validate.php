@@ -1,5 +1,19 @@
 <?php
 
+/*
+ 
+ //example how to use this file and functions
+
+ require 'inc/validate.php';
+
+ if(test_name($_POST['firstname'])){
+	$firstname = $_POST['firstname']; 
+ }else{
+	$error=false;
+ }
+
+ */
+
 function test_name($data){
 	test_input($data);
 	$error= true;
