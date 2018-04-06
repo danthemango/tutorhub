@@ -6,7 +6,7 @@ Created: Mar 22, 2018
 Edited: Mar 27, 2018, Mar 29, 2018, Apr 3, 2018
 Purpose: This file submits form data to the database for tutorhub signup.php */
 
-$error=TRUE; //false means no error
+$error=0; //false means no error
 require 'inc/header.php'; 
 require_once("inc/dbinfo.inc");
 require_once("inc/auth.php");
@@ -20,43 +20,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if(test_email($_POST['email'])){
 	$email = $_POST['email'];
 }else{
-	$error=TRUE;
+	$error=1;
 }
 
 if(test_name($_POST['firstname'])){
 	$firstname = $_POST['firstname']; 
 	echo "first name".$firstname;
 }else{
-	$error=TRUE;
+	$error=1;
 }
 
 if(test_name($_POST['lastname'])){
 	$lastname  = $_POST['lastname']; 
 }else{
-	$error=TRUE;
+	$error=1;
 }
 if(test_phone($_POST['phone'])){
 	$phone = $_POST['phone']; 
 }else{
-	$error=TRUE;
+	$error=1;
 }
 
 if(test_password($_POST['password'])){
 	$uPassword = $_POST['password'];
 }else{
-	$error=TRUE;
+	$error=1;
 }
 if(test_rate($_POST['rate'])){
 	$pay = $_POST['rate'];
 }else{
-	$error=TRUE;
+	$error=1;
 }
 
-if ($error) {
-	header('location:signup.php');
+if ($error===1) {
+	header("location:signup.php");
 	exit;
 }
 }
+
+
 echo "<div class='signupBodyStyles' style='margin:10% 10px 0 5%;'>";
 
 // Insert personal info into database: name, email, pass, phone, date joined, hourly pay rate
