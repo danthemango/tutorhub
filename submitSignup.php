@@ -53,7 +53,7 @@ if(test_rate($_POST['rate'])){
 }
 
 if ($error===1) {
-	header("location:signup.php");
+	header("location:signup.php",  true,  301);
 	exit();
 }
 }
