@@ -6,7 +6,7 @@ Created: Mar 22, 2018
 Edited: Mar 27, 2018, Mar 29, 2018, Apr 3, 2018
 Purpose: This file submits form data to the database for tutorhub signup.php */
 
-$error=false; //false means no error
+$error=TRUE; //false means no error
 require 'inc/header.php'; 
 require_once("inc/dbinfo.inc");
 require_once("inc/auth.php");
@@ -20,37 +20,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if(test_email($_POST['email'])){
 	$email = $_POST['email'];
 }else{
-	$error=true;
+	$error=TRUE;
 }
 
 if(test_name($_POST['firstname'])){
 	$firstname = $_POST['firstname']; 
 	echo "first name".$firstname;
 }else{
-	$error=true;
+	$error=TRUE;
 }
 
 if(test_name($_POST['lastname'])){
 	$lastname  = $_POST['lastname']; 
 }else{
-	$error=true;
+	$error=TRUE;
 }
-
 if(test_phone($_POST['phone'])){
 	$phone = $_POST['phone']; 
 }else{
-	$error=true;
+	$error=TRUE;
 }
 
 if(test_password($_POST['password'])){
 	$uPassword = $_POST['password'];
 }else{
-	$error=true;
+	$error=TRUE;
 }
 if(test_rate($_POST['rate'])){
 	$pay = $_POST['rate'];
 }else{
-	$error=true;
+	$error=TRUE;
 }
 
 if ($error) {
