@@ -124,8 +124,8 @@ if ($session) {
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Edited by Sami Al-Qusus on April 6, 2018 part of validation
 /////////////////////////////////////////////////////////////////////////////////////////////
+
 if($_SESSION['err']){
-	session_start();
 	echo "<br><br><br><br><div class='text-danger text-center'>";
 	echo "<h3>Please make sure you fill in the form correctly.</h3>";
 	echo $_SESSION['err']."</div>";

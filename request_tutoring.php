@@ -23,11 +23,11 @@ if (isset($_POST['courses'])) {
 	$error.="Error in courses input <br>";
 }
 
-if(test_name($_POST['name'])){
+if(test_fullname($_POST['name'])){
 	$name = $_POST['name'];
 } else {
 	$err = true;
-	$error.="First name is required and only letters allowed<br>";
+	$error.="Name is required and only letters allowed<br>";
 }
 
 if(test_email($_POST['email'])){
