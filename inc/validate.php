@@ -1,6 +1,11 @@
 <?php
 
 /*
+ *Group:    SCAD (Sami, Camille, Angelo, and Dan)
+ *Purpose:  validate functions for TutorHub
+ *Created:  2018-03-20 by Sami 
+ *Last Modified: 2018-04-06 
+/*
  
  //example how to use this file and functions
 

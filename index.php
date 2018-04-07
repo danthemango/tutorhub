@@ -9,6 +9,7 @@ require 'inc/header.php';
    Modified: 2018-02-13 Dan: developed sample page with bootstrap
              2018-03-05 Sami: edited initial template and started developing the different sections
              2018-03-16 Sami: modified the form section
+	     2018-04-06 Sami: Minor fixes
 -->
 
 <br><br>

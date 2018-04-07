@@ -8,7 +8,7 @@ require_once('inc/validate.php');
 use Twilio\Rest\Client;
 
 $err = false;
-$error='';
+$error=''; //holds error messages but will not output them, in place incase we decide we'd like to be specific in the future
 
 if(test_number($_POST['rate'])){
 	$id = $_POST['id'];
