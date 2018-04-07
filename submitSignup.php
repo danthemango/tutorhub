@@ -4,6 +4,7 @@
 Author: Camille Nicole James
 Created: Mar 22, 2018
 Edited: Mar 27, 2018, Mar 29, 2018, Apr 3, 2018
+Modified: Apr 6, 2018 by Sami [added validation functionality]
 Purpose: This file submits form data to the database for tutorhub signup.php */
 
 $pagetitle = "Signed up!";
