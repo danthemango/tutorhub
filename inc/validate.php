@@ -118,7 +118,7 @@ function test_input($data) {
 function test_class($data){
 	test_input($data);
 	$error= TRUE;
-        if (!preg_match('/^[0-9]{10}$/',$data)) {
+        if (!preg_match('/^[0-9A-Za-z]{4,10}$/',$data)) {
 		// "course has to be numeric and 10 digits";
 		$error= FALSE;
 	}
