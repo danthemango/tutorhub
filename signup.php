@@ -10,6 +10,7 @@
       2018-03-14 Camille: completed scheduling section & rest of file edits
       2018-03-26 Camille: added hourly rate, fixed layout issues and padding, changed hourly inputs
       2019-04-03 Camille: edited background photo dimensions
+      2019-04-05 Sami: added validations
 -->
 
 <!-- Page-Specific CSS written by CJ -->
