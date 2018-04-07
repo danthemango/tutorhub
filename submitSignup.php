@@ -60,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    }
 
    if ($error) {
-//	session_start();
 	header("location:signup.php");
 	$_SESSION['err']=$err;
 	exit;
@@ -118,7 +117,6 @@ try{
 //Insert skills into database:
 foreach ($_POST['classes'] as $classes) {
 //echo $classes;
-	if(test_class($classes)){
 		try{
 		   $dbh = new PDO("mysql:host=$host;dbname=$database", $user, $password);
 		   // insert the data:
@@ -136,9 +134,6 @@ foreach ($_POST['classes'] as $classes) {
 		      // for debugging: 
 		      echo "error from database: " . $e->getMessage() . "<br />";
 		}
-	}else{
-		echo "Error! Your class information could not be submitted.<br>";
-	}
 }
 
 // Insert availability times into database
