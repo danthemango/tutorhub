@@ -119,7 +119,7 @@ function test_class($data){
 	test_input($data);
 	$error= TRUE;
         if (!preg_match('/^[0-9A-Za-z]{4,10}$/',$data)) {
-		// "course has to be numeric and 10 digits";
+		// "course has to be numeric and alphabetic and up to 10 digits";
 		$error= FALSE;
 	}
 	return $error;
