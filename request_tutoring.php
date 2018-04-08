@@ -10,7 +10,7 @@ use Twilio\Rest\Client;
 $err = false;
 $error=''; //holds error messages but will not output them, in place incase we decide we'd like to be specific in the future
 
-if(test_number($_POST['rate'])){
+if(test_number($_POST['id'])){
 	$id = $_POST['id'];
 } else {
 	$err = true; 
