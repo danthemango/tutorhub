@@ -96,7 +96,7 @@ function test_message($data){
 	//	echo "message is required";
 		$error= FALSE;
 	}
-	$data = filter_var($data, FILTER_SANITIZE_STRING));
+	$data = filter_var($data, FILTER_SANITIZE_STRING);
 	return $error;
 }
 
