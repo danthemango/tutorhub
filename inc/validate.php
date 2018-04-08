@@ -96,10 +96,7 @@ function test_message($data){
 	//	echo "message is required";
 		$error= FALSE;
 	}
-	else if (!filter_var($data, FILTER_SANITIZE_STRING)) {
-	//	echo "try again with valid input for your message";
-		$error= FALSE;
-	}
+	$data = filter_var($data, FILTER_SANITIZE_STRING));
 	return $error;
 }
 
